@@ -3,1379 +3,553 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>English Chain</title>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>English Journey — ETH Zurich Track</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --bg:#141210;
-  --s1:#1a1714;
-  --s2:#201d19;
-  --s3:#26231e;
-  --b1:#2e2a24;
-  --b2:#3a352d;
-  --b3:#4a4438;
-  --ink:#f0e8d8;
-  --ink2:#c8bca8;
-  --ink3:#8a7e6e;
-  --ink4:#4a4438;
-  --ac:#d4952a;
-  --ac2:#f0b040;
-  --ac-dim:rgba(212,149,42,0.10);
-  --ac-glow:rgba(212,149,42,0.22);
-  --ac-border:rgba(212,149,42,0.28);
-  --teal:#2ab8a0;
-  --teal-dim:rgba(42,184,160,0.09);
-  --teal-border:rgba(42,184,160,0.25);
-  --red:#c0503a;
-  --red-dim:rgba(192,80,58,0.10);
-  --red-border:rgba(192,80,58,0.28);
-  --green:#4a9e70;
-  --green-dim:rgba(74,158,112,0.10);
-}
-html,body{height:100%;}
-body{
-  background:var(--bg);color:var(--ink);
-  font-family:'Manrope',sans-serif;
-  min-height:100vh;overflow-x:hidden;
-}
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  opacity:.8;mix-blend-mode:overlay;
-}
+  :root {
+    --bg: #0d0f12;
+    --bg2: #13161b;
+    --bg3: #1a1e25;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8eaf0;
+    --text2: #7a8090;
+    --text3: #4a5060;
+    --accent: #2dce89;
+    --accent-dim: rgba(45,206,137,0.12);
+    --accent-dim2: rgba(45,206,137,0.06);
+    --accent-dark: #1fa968;
+    --accent-light: #5de0a8;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Sora', sans-serif;
+  }
 
-/* ── TOPBAR ── */
-.topbar{
-  position:sticky;top:0;z-index:100;
-  background:rgba(20,18,16,.96);
-  border-bottom:1px solid var(--b1);
-  backdrop-filter:blur(16px);
-  display:flex;align-items:center;
-  padding:0 16px;height:50px;
-}
-.logo{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;font-weight:600;color:var(--ac);
-  letter-spacing:.12em;padding-right:14px;
-  border-right:1px solid var(--b2);margin-right:4px;
-  white-space:nowrap;flex-shrink:0;
-}
-.tabs{display:flex;flex:1;overflow-x:auto;scrollbar-width:none;}
-.tabs::-webkit-scrollbar{display:none;}
-.tab{
-  padding:0 13px;height:50px;display:flex;align-items:center;gap:5px;
-  font-size:12px;font-weight:600;color:var(--ink3);cursor:pointer;
-  white-space:nowrap;border-bottom:2px solid transparent;
-  transition:all .18s;user-select:none;letter-spacing:.01em;
-}
-.tab:hover{color:var(--ink2);}
-.tab.active{color:var(--ink);border-bottom-color:var(--ac);}
-.streak-pill{
-  margin-left:auto;flex-shrink:0;
-  display:flex;align-items:center;gap:5px;
-  background:var(--red-dim);border:1px solid var(--red-border);
-  border-radius:20px;padding:4px 10px 4px 8px;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;font-weight:600;color:var(--red);
-}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── PANELS ── */
-.panel{display:none;padding:16px;max-width:880px;margin:0 auto;position:relative;z-index:1;}
-.panel.active{display:block;}
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
 
-/* ── SECTION LABEL ── */
-.sec{font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--ink4);margin-bottom:11px;display:flex;align-items:center;gap:8px;}
-.sec::after{content:'';flex:1;height:1px;background:var(--b1);}
+  /* LAYOUT */
+  .app { max-width: 480px; margin: 0 auto; padding: 24px 16px 80px; }
 
-/* ── CARDS ── */
-.card{background:var(--s1);border:1px solid var(--b1);border-radius:13px;padding:15px;margin-bottom:11px;}
-.card-title{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:13px;}
+  /* HEADER */
+  .header {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+  .logo { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; }
+  .date-tag {
+    font-family: var(--mono); font-size: 11px; color: var(--text3);
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 4px;
+    padding: 3px 8px;
+  }
+  .header h1 { font-size: 22px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+  .header p { font-size: 13px; color: var(--text2); margin-top: 2px; }
+  .phase-tag {
+    display: inline-block; margin-top: 10px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+    background: var(--accent-dim); color: var(--accent);
+    border: 1px solid rgba(45,206,137,0.2); border-radius: 3px;
+    padding: 3px 8px; text-transform: uppercase;
+  }
 
-/* ── STATS ── */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
-@media(max-width:540px){.stats-row{grid-template-columns:1fr 1fr;}}
-.stat-card{background:var(--s1);border:1px solid var(--b1);border-radius:11px;padding:12px;text-align:center;}
-.stat-num{font-family:'Lora',Georgia,serif;font-size:26px;font-weight:700;line-height:1;margin-bottom:4px;}
-.stat-lbl{font-size:9.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;font-weight:600;}
+  /* STATS */
+  .stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 24px; }
+  .stat {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 12px; text-align: center;
+  }
+  .stat-num {
+    font-family: var(--mono); font-size: 26px; font-weight: 500;
+    color: var(--text); display: block; line-height: 1;
+  }
+  .stat-num.green { color: var(--accent); }
+  .stat-label { font-size: 11px; color: var(--text3); margin-top: 4px; display: block; }
 
-/* ── HERO ── */
-.today-hero{background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:11px;}
-.hero-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
-.hero-title{font-family:'Lora',Georgia,serif;font-size:21px;font-weight:600;line-height:1.2;}
-.hero-title em{color:var(--ac);font-style:italic;}
-.test-hero{background:rgba(212,149,42,0.06);border:1px solid var(--ac-border);border-radius:14px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:11px;}
-.test-tag{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ac);margin-bottom:4px;}
-.test-title{font-family:'Lora',Georgia,serif;font-size:19px;font-weight:600;}
+  /* TABS */
+  .tabs { display: flex; gap: 4px; margin-bottom: 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 4px; }
+  .tab {
+    flex: 1; padding: 8px 4px; font-size: 12px; font-weight: 500;
+    color: var(--text2); background: transparent; border: none; border-radius: 7px;
+    cursor: pointer; transition: all 0.2s; font-family: var(--sans);
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { background: var(--bg3); color: var(--accent); border: 1px solid rgba(45,206,137,0.2); }
 
-/* ── STAMP ── */
-.stamp-btn{background:var(--ac);color:#141210;border:none;border-radius:9px;padding:10px 18px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;white-space:nowrap;}
-.stamp-btn:hover{background:var(--ac2);transform:translateY(-1px);box-shadow:0 6px 18px var(--ac-glow);}
-.stamp-btn.done{background:var(--s2);border:1px solid var(--ac-border);color:var(--ac);cursor:default;}
-.stamp-btn.done:hover{transform:none;box-shadow:none;}
+  /* SECTION */
+  .section { margin-bottom: 24px; }
+  .section-label {
+    font-family: var(--mono); font-size: 10px; color: var(--text3);
+    text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-/* ── TIER ── */
-.tier-row{display:flex;gap:5px;margin-bottom:9px;flex-wrap:wrap;}
-.tier-btn{padding:4px 11px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--b2);background:var(--s2);color:var(--ink3);transition:all .15s;user-select:none;}
-.tier-btn.act-min{background:var(--red-dim);border-color:var(--red-border);color:var(--red);}
-.tier-btn.act-std{background:var(--ac-dim);border-color:var(--ac-border);color:var(--ac);}
-.tier-btn.act-full{background:var(--teal-dim);border-color:var(--teal-border);color:var(--teal);}
-.tier-desc{font-size:11px;color:var(--ink3);margin-bottom:10px;}
+  /* PROGRESS */
+  .progress-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+  .progress-track { height: 4px; background: var(--bg3); border-radius: 99px; margin-bottom: 16px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.4s cubic-bezier(0.4,0,0.2,1); }
 
-/* ── TASKS ── */
-.task-list{list-style:none;}
-.task-item{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;user-select:none;transition:opacity .15s;}
-.task-item:last-child{border-bottom:none;}
-.task-item:hover{opacity:.8;}
-.task-item.tier-hidden{display:none;}
-.task-check{width:15px;height:15px;border:1.5px solid var(--b3);border-radius:3px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.task-item.checked .task-check{background:var(--teal);border-color:var(--teal);}
-.ck-icon{display:none;color:#141210;font-size:9px;font-weight:900;}
-.task-item.checked .ck-icon{display:block;}
-.task-text{font-size:13px;line-height:1.45;font-weight:500;}
-.task-item.checked .task-text{color:var(--ink3);text-decoration:line-through;}
-.task-time{font-size:10.5px;color:var(--ink3);margin-top:1px;display:block;}
-.t-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:5px;}
-.t-dot.min{background:var(--red);}
-.t-dot.std{background:var(--ac);}
-.t-dot.full{background:var(--teal);}
-.t-dot.test{background:var(--ac);}
-.prog-wrap{background:var(--s3);border-radius:20px;height:4px;margin-top:11px;overflow:hidden;}
-.prog-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--teal),#40d0b8);transition:width .4s cubic-bezier(.4,0,.2,1);}
-.prog-text{font-size:10.5px;color:var(--ink3);margin-top:5px;}
+  /* HABIT CARDS */
+  .habit {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 14px;
+    cursor: pointer; transition: all 0.2s; user-select: none;
+  }
+  .habit:hover { border-color: var(--border2); }
+  .habit.done { background: var(--accent-dim2); border-color: rgba(45,206,137,0.25); }
+  .check {
+    width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--border2);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .habit.done .check { background: var(--accent); border-color: var(--accent); }
+  .check svg { display: none; }
+  .habit.done .check svg { display: block; }
+  .habit-body { flex: 1; }
+  .habit-name { font-size: 14px; font-weight: 500; color: var(--text); }
+  .habit.done .habit-name { color: var(--accent-light); }
+  .habit-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .habit.done .habit-sub { color: rgba(45,206,137,0.5); }
+  .habit-min { font-family: var(--mono); font-size: 11px; color: var(--text3); flex-shrink: 0; }
+  .habit.done .habit-min { color: var(--accent); }
 
-/* ══════════════════════
-   JOURNAL
-══════════════════════ */
-.prompt-box{
-  background:var(--ac-dim);border:1px solid var(--ac-border);
-  border-radius:10px;padding:11px 14px;margin-bottom:10px;
-}
-.prompt-eyebrow{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ac);margin-bottom:6px;}
-.prompt-text{font-size:12.5px;color:var(--ink2);line-height:1.6;}
-.prompt-list{list-style:none;display:flex;flex-direction:column;gap:4px;margin-top:6px;}
-.prompt-list li{font-size:12.5px;color:var(--ink2);line-height:1.5;padding-left:14px;position:relative;}
-.prompt-list li::before{content:'→';position:absolute;left:0;color:var(--ac);font-size:11px;}
+  /* NOTE */
+  textarea {
+    width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px; font-size: 13px; color: var(--text); font-family: var(--sans);
+    resize: none; height: 80px; line-height: 1.6;
+    transition: border-color 0.2s;
+  }
+  textarea::placeholder { color: var(--text3); }
+  textarea:focus { outline: none; border-color: rgba(45,206,137,0.4); }
 
-.journal-area{
-  width:100%;background:var(--s2);
-  border:1px solid var(--b2);border-radius:10px;
-  padding:11px 13px;color:var(--ink);
-  font-family:'Manrope',sans-serif;
-  font-size:13.5px;line-height:1.65;
-  resize:vertical;min-height:120px;outline:none;
-  transition:border-color .2s;
-}
-.journal-area:focus{border-color:var(--ac);}
-.journal-area::placeholder{color:var(--ink4);}
+  .btn-row { display: flex; gap: 8px; margin-top: 8px; }
+  button {
+    font-family: var(--sans); font-size: 13px; cursor: pointer;
+    border-radius: 8px; padding: 8px 16px; transition: all 0.2s;
+  }
+  .btn-save {
+    background: var(--accent); color: #0d0f12; border: none; font-weight: 600;
+  }
+  .btn-save:hover { background: var(--accent-light); }
+  .btn-ghost {
+    background: transparent; color: var(--text2);
+    border: 1px solid var(--border2);
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--border2); background: var(--bg3); }
 
-.journal-footer{display:flex;align-items:center;justify-content:space-between;margin-top:8px;flex-wrap:wrap;gap:8px;}
-.word-count{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink3);}
-.word-count em{color:var(--ac);font-style:normal;}
-.save-btn{background:var(--ac-dim);border:1px solid var(--ac-border);color:var(--ac);border-radius:8px;padding:6px 14px;font-family:'Manrope',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;}
-.save-btn:hover{background:var(--ac-glow);}
+  /* WEEK */
+  .week-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 16px; }
+  .week-cell { text-align: center; }
+  .wc-label { font-size: 10px; color: var(--text3); margin-bottom: 4px; font-family: var(--mono); }
+  .wc-dot {
+    width: 100%; aspect-ratio: 1; border-radius: 50%; max-width: 36px; margin: 0 auto;
+    border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--text3); font-family: var(--mono);
+  }
+  .wc-dot.full { background: var(--accent); border-color: var(--accent); color: #0d0f12; font-weight: 500; }
+  .wc-dot.partial { background: rgba(45,206,137,0.15); border-color: rgba(45,206,137,0.3); color: var(--accent); }
+  .wc-dot.today-ring { border-color: var(--accent); color: var(--accent); }
 
-/* ── RATING INPUT ── */
-.rating-block{
-  background:var(--s2);border:1px solid var(--b2);
-  border-radius:10px;padding:12px 14px;margin-top:10px;
-}
-.rating-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;}
-.rating-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.rating-input{
-  width:70px;background:var(--s3);border:1px solid var(--b3);
-  border-radius:7px;padding:6px 10px;
-  color:var(--ink);font-family:'IBM Plex Mono',monospace;
-  font-size:18px;font-weight:600;text-align:center;outline:none;
-  transition:border-color .18s;
-}
-.rating-input:focus{border-color:var(--ac);}
-.rating-badge{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--ink3);}
-.rating-bar-wrap{flex:1;height:6px;background:var(--s3);border-radius:20px;overflow:hidden;min-width:60px;}
-.rating-bar-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--teal),var(--ac));transition:width .4s cubic-bezier(.4,0,.2,1);width:0%;}
-.ai-feedback-area{
-  width:100%;background:var(--s3);border:1px solid var(--b2);
-  border-radius:8px;padding:9px 12px;color:var(--ink2);
-  font-family:'Manrope',sans-serif;font-size:12.5px;line-height:1.6;
-  resize:vertical;min-height:60px;outline:none;
-  transition:border-color .18s;margin-top:8px;
-}
-.ai-feedback-area:focus{border-color:var(--teal);}
-.ai-feedback-area::placeholder{color:var(--ink4);}
-.save-rating-btn{margin-top:8px;background:var(--teal-dim);border:1px solid var(--teal-border);color:var(--teal);border-radius:8px;padding:7px 16px;font-family:'Manrope',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;width:100%;}
-.save-rating-btn:hover{background:rgba(42,184,160,.18);}
+  /* NOTES LIST */
+  .note-item { padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .note-date { font-family: var(--mono); font-size: 10px; color: var(--text3); margin-bottom: 3px; }
+  .note-text { font-size: 13px; color: var(--text2); }
+  .empty { font-size: 13px; color: var(--text3); font-style: italic; }
 
-/* ── WEEKLY CHART ── */
-.chart-container{background:var(--s1);border:1px solid var(--b1);border-radius:13px;padding:15px;margin-bottom:11px;}
-.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
-.chart-title{font-size:13px;font-weight:700;}
-.chart-area{position:relative;height:160px;}
-.chart-stats-row{display:flex;gap:20px;margin-top:10px;flex-wrap:wrap;}
-.cst-item{text-align:center;}
-.cst-num{font-family:'Lora',Georgia,serif;font-size:20px;font-weight:700;line-height:1;}
-.cst-lbl{font-size:9.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;margin-top:2px;}
+  /* IELTS */
+  .score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .score-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px; position: relative; overflow: hidden;
+  }
+  .score-card-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+  .score-val { font-family: var(--mono); font-size: 28px; font-weight: 500; color: var(--text); line-height: 1; }
+  .score-val.hit { color: var(--accent-light); }
+  .score-target { font-size: 10px; color: var(--text3); margin-top: 4px; }
+  .score-bar { height: 2px; background: var(--border); border-radius: 99px; margin-top: 10px; overflow: hidden; }
+  .score-bar-fill { height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.5s; }
 
-/* ── JOURNAL HISTORY ── */
-.jh-entry{background:var(--s2);border:1px solid var(--b1);border-radius:10px;padding:12px 13px;margin-bottom:8px;}
-.jh-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:6px;}
-.jh-date{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink3);}
-.jh-score{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--ac);}
-.jh-wc{font-size:10px;color:var(--ink4);}
-.jh-text{font-size:13px;line-height:1.55;color:var(--ink2);}
-.jh-feedback{font-size:11.5px;color:var(--ink3);margin-top:6px;font-style:italic;border-top:1px solid var(--b1);padding-top:6px;}
+  .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .input-row { display: flex; flex-direction: column; gap: 4px; }
+  .input-row label { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+  .input-row input {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 12px; font-size: 14px; font-family: var(--mono); color: var(--text);
+    text-align: center; transition: border-color 0.2s; height: auto;
+  }
+  .input-row input:focus { outline: none; border-color: rgba(45,206,137,0.4); }
 
-/* ── ERROR NOTES ── */
-.error-input-row{display:flex;gap:7px;margin-bottom:9px;}
-.error-input{
-  flex:1;background:var(--s2);border:1px solid var(--b2);
-  border-radius:8px;padding:8px 11px;color:var(--ink);
-  font-family:'Manrope',sans-serif;font-size:13px;outline:none;
-  transition:border-color .18s;
-}
-.error-input:focus{border-color:var(--red);}
-.error-input::placeholder{color:var(--ink4);}
-.add-btn{
-  background:var(--red-dim);border:1px solid var(--red-border);
-  color:var(--red);border-radius:8px;padding:8px 13px;
-  font-size:12px;font-weight:700;cursor:pointer;
-  transition:all .15s;white-space:nowrap;
-}
-.add-btn:hover{background:rgba(192,80,58,.18);}
-.add-btn.teal{background:var(--teal-dim);border-color:var(--teal-border);color:var(--teal);}
-.add-btn.teal:hover{background:rgba(42,184,160,.18);}
-.error-list{display:flex;flex-direction:column;gap:6px;}
-.error-item{
-  display:flex;align-items:flex-start;gap:8px;
-  background:var(--s2);border:1px solid var(--b1);
-  border-radius:8px;padding:9px 11px;
-  animation:slideIn .18s ease both;
-}
-.error-item.resolved{opacity:.4;}
-.error-left{flex:1;}
-.error-text{font-size:13px;color:var(--ink2);line-height:1.4;}
-.error-date{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink4);margin-top:3px;}
-.error-actions{display:flex;gap:5px;flex-shrink:0;}
-.e-btn{
-  background:none;border:1px solid var(--b2);border-radius:5px;
-  width:24px;height:24px;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:11px;color:var(--ink3);transition:all .15s;
-}
-.e-btn:hover{border-color:var(--teal);color:var(--teal);}
-.e-btn.del:hover{border-color:var(--red);color:var(--red);}
-.error-item.resolved .e-btn.resolve{color:var(--teal);border-color:var(--teal-border);}
-.empty-state{font-size:12.5px;color:var(--ink4);text-align:center;padding:16px;font-style:italic;}
+  /* MILESTONES */
+  .milestone {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+  }
+  .ms-check {
+    width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--border2);
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  }
+  .ms-check.done { background: var(--accent); border-color: var(--accent); }
+  .ms-body { flex: 1; font-size: 13px; color: var(--text2); }
+  .ms-check.done + .ms-body { color: var(--accent-light); }
+  .ms-day { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+  .milestone { cursor: pointer; }
+  .milestone:hover .ms-body { color: var(--text); }
 
-/* ── SHADOW LOG ── */
-.shadow-input-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px;}
-@media(max-width:500px){.shadow-input-grid{grid-template-columns:1fr;}}
-.shadow-source{grid-column:1/-1;}
-.sl-input{
-  width:100%;background:var(--s2);border:1px solid var(--b2);
-  border-radius:8px;padding:8px 11px;color:var(--ink);
-  font-family:'Manrope',sans-serif;font-size:12.5px;outline:none;
-  transition:border-color .18s;
-}
-.sl-input:focus{border-color:var(--teal);}
-.sl-input::placeholder{color:var(--ink4);}
-.shadow-item{
-  background:var(--s2);border:1px solid var(--b1);
-  border-radius:8px;padding:10px 12px;margin-bottom:7px;
-  display:flex;gap:10px;align-items:flex-start;
-  animation:slideIn .18s ease both;
-}
-.shadow-left{flex:1;}
-.shadow-source-tag{font-size:10px;font-weight:700;color:var(--teal);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;}
-.shadow-dur{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3);}
-.shadow-note{font-size:12.5px;color:var(--ink2);line-height:1.4;margin-top:4px;}
-.shadow-date{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink4);margin-top:4px;}
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--accent); color: #0d0f12; font-size: 13px; font-weight: 600;
+    padding: 10px 20px; border-radius: 99px; opacity: 0;
+    transition: all 0.3s; pointer-events: none; white-space: nowrap;
+    font-family: var(--sans);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* ── WEEKLY REVIEW ── */
-.wr-card{background:rgba(42,184,160,.06);border:1px solid var(--teal-border);border-radius:13px;padding:15px;margin-bottom:11px;}
-.wr-title{font-size:13px;font-weight:700;color:var(--teal);margin-bottom:13px;}
-.wr-q{font-size:10px;color:var(--ink3);margin-bottom:5px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;}
-.wr-input{width:100%;background:var(--s2);border:1px solid var(--b2);border-radius:7px;padding:8px 11px;color:var(--ink);font-family:'Manrope',sans-serif;font-size:13px;outline:none;margin-bottom:10px;transition:border-color .18s;}
-.wr-input:focus{border-color:var(--teal);}
-.wr-input::placeholder{color:var(--ink4);}
-.wr-save{background:var(--teal-dim);border:1px solid var(--teal-border);color:var(--teal);border-radius:8px;padding:7px 16px;font-family:'Manrope',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;}
-.wr-save:hover{background:rgba(42,184,160,.18);}
-
-/* ── CALENDAR ── */
-.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:9px;}
-.cal-nav{display:flex;align-items:center;gap:10px;}
-.cal-month{font-family:'Lora',Georgia,serif;font-size:16px;font-weight:600;font-style:italic;min-width:150px;text-align:center;}
-.cal-nav-btn{background:var(--s2);border:1px solid var(--b2);color:var(--ink2);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.cal-nav-btn:hover{background:var(--s3);}
-.cal-legend{display:flex;gap:12px;font-size:10.5px;color:var(--ink3);flex-wrap:wrap;}
-.cal-legend-item{display:flex;align-items:center;gap:5px;}
-.leg-dot{width:9px;height:9px;border-radius:2px;}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
-.cal-day-name{text-align:center;font-size:9.5px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.07em;padding:5px 0;}
-.cal-cell{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;position:relative;background:var(--s1);border:1px solid var(--b1);overflow:hidden;}
-.cal-cell.empty{background:transparent;border-color:transparent;}
-.cal-cell.today{border-color:var(--teal);color:var(--teal);font-weight:700;}
-.cal-cell.done{background:rgba(192,80,58,.08);border-color:rgba(192,80,58,.28);}
-.cal-cell.done::after{content:'✕';position:absolute;font-size:clamp(14px,2.2vw,20px);font-weight:900;color:var(--red);opacity:.8;font-family:'IBM Plex Mono',monospace;}
-.cal-cell.future{opacity:.2;}
-.cal-cell.test-day{background:rgba(212,149,42,.07);border-color:var(--ac-border);}
-.cal-cell.test-done{background:rgba(212,149,42,.10);border-color:var(--ac-border);}
-.cal-cell.test-done::after{content:'✕';position:absolute;font-size:clamp(14px,2.2vw,20px);font-weight:900;color:var(--ac);opacity:.8;font-family:'IBM Plex Mono',monospace;}
-.cal-cell-num{font-size:10px;position:absolute;top:3px;left:5px;color:var(--ink3);}
-.chain-info{margin-top:13px;background:var(--s1);border:1px solid var(--b1);border-radius:12px;padding:14px 16px;}
-.chain-label{font-size:9.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:9px;}
-.chain-dots{display:flex;flex-wrap:wrap;gap:4px;}
-.chain-dot{width:14px;height:14px;border-radius:3px;background:var(--s3);border:1px solid var(--b1);}
-.chain-dot.done{background:var(--red);border-color:var(--red);}
-.chain-dot.test-done{background:var(--ac);border-color:var(--ac);}
-.chain-dot.test-day-dot{background:transparent;border:2px solid var(--ac);}
-.chain-dot.today-dot{background:transparent;border:2px solid var(--teal);}
-
-/* ── PROGRESS PHASES ── */
-.phase-list{display:flex;flex-direction:column;gap:10px;}
-.phase-row{background:var(--s1);border:1px solid var(--b1);border-radius:13px;overflow:hidden;}
-.phase-row-header{padding:13px 16px;display:flex;align-items:center;gap:11px;cursor:pointer;}
-.phase-n{font-family:'IBM Plex Mono',monospace;font-size:17px;font-weight:600;color:var(--ink4);min-width:26px;}
-.phase-row-info{flex:1;}
-.phase-row-name{font-size:14px;font-weight:700;}
-.phase-row-meta{font-size:10.5px;color:var(--ink3);margin-top:2px;}
-.phase-row-pct{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;}
-.phase-chevron{color:var(--ink3);transition:transform .3s;font-size:10px;}
-.phase-row.open .phase-chevron{transform:rotate(180deg);}
-.phase-row-body{display:none;padding:0 16px 16px;border-top:1px solid var(--b1);}
-.phase-row.open .phase-row-body{display:block;}
-.ph-prog-wrap{background:var(--s3);border-radius:20px;height:5px;margin:12px 0;overflow:hidden;}
-.ph-prog-fill{height:100%;border-radius:20px;transition:width .4s cubic-bezier(.4,0,.2,1);}
-.checklist{list-style:none;}
-.cl-item{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer;user-select:none;}
-.cl-item:last-child{border-bottom:none;}
-.cl-box{width:14px;height:14px;border:1.5px solid var(--b3);border-radius:3px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.cl-item.checked .cl-box{border-color:var(--teal);background:var(--teal);}
-.cl-box-ck{display:none;color:#141210;font-size:8px;font-weight:900;}
-.cl-item.checked .cl-box-ck{display:block;}
-.cl-text{font-size:12.5px;line-height:1.4;flex:1;}
-.cl-item.checked .cl-text{color:var(--ink3);text-decoration:line-through;}
-.cl-tag{font-size:9.5px;padding:1px 6px;border-radius:9px;font-weight:600;flex-shrink:0;margin-top:2px;}
-.p1 .phase-n,.p1 .phase-row-pct{color:#d46060;}.p1 .ph-prog-fill{background:linear-gradient(90deg,#d46060,#c04040);}
-.p2 .phase-n,.p2 .phase-row-pct{color:var(--ac);}.p2 .ph-prog-fill{background:linear-gradient(90deg,var(--ac),#c07a18);}
-.p3 .phase-n,.p3 .phase-row-pct{color:var(--teal);}.p3 .ph-prog-fill{background:linear-gradient(90deg,var(--teal),#1e9080);}
-.p4 .phase-n,.p4 .phase-row-pct{color:#6a9fdf;}.p4 .ph-prog-fill{background:linear-gradient(90deg,#6a9fdf,#4070c0);}
-.p5 .phase-n,.p5 .phase-row-pct{color:#9b78e0;}.p5 .ph-prog-fill{background:linear-gradient(90deg,#9b78e0,#7050c0);}
-.p6 .phase-n,.p6 .phase-row-pct{color:var(--green);}.p6 .ph-prog-fill{background:linear-gradient(90deg,var(--green),#2a7050);}
-.p1 .cl-tag{background:rgba(212,96,96,.09);color:#d46060;border:1px solid rgba(212,96,96,.22);}
-.p2 .cl-tag{background:var(--ac-dim);color:var(--ac);border:1px solid var(--ac-border);}
-.p3 .cl-tag{background:var(--teal-dim);color:var(--teal);border:1px solid var(--teal-border);}
-.p4 .cl-tag{background:rgba(106,159,223,.08);color:#6a9fdf;border:1px solid rgba(106,159,223,.22);}
-.p5 .cl-tag{background:rgba(155,120,224,.08);color:#9b78e0;border:1px solid rgba(155,120,224,.22);}
-.p6 .cl-tag{background:var(--green-dim);color:var(--green);border:1px solid rgba(74,158,112,.25);}
-.milestone-tag{background:rgba(212,149,42,.09);color:var(--ac);border:1px solid var(--ac-border);}
-
-/* ── MONTHLY TEST ── */
-.test-month-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px;}
-@media(max-width:640px){.test-month-grid{grid-template-columns:1fr;}}
-.test-input-card{background:var(--s1);border:1px solid var(--b1);border-radius:13px;padding:15px;}
-.test-input-title{font-size:13px;font-weight:700;margin-bottom:13px;display:flex;align-items:center;gap:7px;}
-.score-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
-.score-label{font-size:13px;font-weight:500;}
-.score-iw{display:flex;align-items:center;gap:7px;}
-.score-in{width:60px;background:var(--s2);border:1px solid var(--b2);border-radius:7px;padding:5px 8px;color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;text-align:center;outline:none;transition:border-color .18s;}
-.score-in:focus{border-color:var(--ac);}
-.score-badge{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;min-width:32px;text-align:right;}
-.score-bar-wrap{background:var(--s3);border-radius:10px;height:3px;margin-bottom:10px;overflow:hidden;}
-.score-bar-fill{height:100%;border-radius:10px;transition:width .4s;}
-.notes-in{width:100%;background:var(--s2);border:1px solid var(--b2);border-radius:8px;padding:9px 11px;color:var(--ink);font-family:'Manrope',sans-serif;font-size:13px;line-height:1.5;resize:vertical;min-height:70px;outline:none;margin-top:9px;transition:border-color .18s;}
-.notes-in:focus{border-color:var(--ac);}
-.notes-in::placeholder{color:var(--ink4);}
-.save-test-btn{width:100%;margin-top:12px;background:var(--ac-dim);border:1px solid var(--ac-border);color:var(--ac);border-radius:9px;padding:10px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s;}
-.save-test-btn:hover{background:var(--ac-glow);}
-.test-history-item{background:var(--s1);border:1px solid var(--b1);border-radius:11px;padding:13px 15px;margin-bottom:9px;}
-.thi-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.thi-month{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;}
-.thi-overall{font-family:'Lora',Georgia,serif;font-size:20px;font-weight:700;color:var(--ac);}
-.thi-scores{display:flex;gap:11px;flex-wrap:wrap;}
-.thi-score{font-size:11.5px;color:var(--ink3);}
-.thi-notes{font-size:11.5px;color:var(--ink3);margin-top:7px;font-style:italic;border-top:1px solid var(--b1);padding-top:7px;}
-.workflow-card{font-size:12px;line-height:1.85;color:var(--ink2);}
-.workflow-card strong{color:var(--ac);}
-
-/* ── TOAST ── */
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--s2);border:1px solid var(--teal-border);color:var(--teal);padding:9px 20px;border-radius:24px;font-size:13px;font-weight:600;z-index:9999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none;white-space:nowrap;}
-.toast.show{transform:translateX(-50%) translateY(0);}
-.toast.red{border-color:var(--red-border);color:var(--red);}
-.toast.gold{border-color:var(--ac-border);color:var(--ac);}
-
-@keyframes slideIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
-::-webkit-scrollbar{width:4px;height:4px;}
-::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:var(--b2);border-radius:3px;}
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 99px; }
 </style>
 </head>
 <body>
+<div class="app">
 
-<div class="topbar">
-  <div class="logo">⛓ CHAIN</div>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="logo">eng_tracker.exe</div>
+      <div class="date-tag" id="date-tag">—</div>
+    </div>
+    <h1>English Journey</h1>
+    <p>ETH Zurich track · IELTS 7.5 target</p>
+    <div class="phase-tag" id="phase-tag">Phase 1 — Input</div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-num green" id="stat-streak">0</span>
+      <span class="stat-label">hari streak</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num" id="stat-total">0</span>
+      <span class="stat-label">total hari</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num" id="stat-pct">0%</span>
+      <span class="stat-label">hari ini</span>
+    </div>
+  </div>
+
+  <!-- TABS -->
   <div class="tabs">
-    <div class="tab active" onclick="switchTab('today')" id="tab-today">Hari Ini</div>
-    <div class="tab" onclick="switchTab('journal')" id="tab-journal">Journal</div>
-    <div class="tab" onclick="switchTab('calendar')" id="tab-calendar">Kalender</div>
-    <div class="tab" onclick="switchTab('progress')" id="tab-progress">Fase</div>
-    <div class="tab" onclick="switchTab('test')" id="tab-test">Tes Bulanan</div>
-  </div>
-  <div class="streak-pill">🔥 <span id="streak-count">0</span></div>
-</div>
-
-<!-- ══ TODAY ══ -->
-<div class="panel active" id="panel-today">
-  <div class="stats-row">
-    <div class="stat-card"><div class="stat-num" style="color:var(--red)" id="stat-streak">0</div><div class="stat-lbl">🔥 Streak</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--ac)" id="stat-total">0</div><div class="stat-lbl">Total Hari</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--teal)" id="stat-tasks">0/7</div><div class="stat-lbl">Tugas</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:var(--ink2)" id="stat-phase">F1</div><div class="stat-lbl">Fase Aktif</div></div>
+    <button class="tab active" onclick="switchTab('today')">Hari ini</button>
+    <button class="tab" onclick="switchTab('week')">Mingguan</button>
+    <button class="tab" onclick="switchTab('ielts')">IELTS</button>
   </div>
 
-  <div id="weekly-review-wrap"></div>
-  <div id="today-hero-wrap"></div>
-
-  <!-- CHECKLIST -->
-  <div class="card">
-    <div class="card-title">Checklist Harian</div>
-    <div class="tier-row">
-      <div class="tier-btn act-min" onclick="setTier('min',this)">Minimum</div>
-      <div class="tier-btn" onclick="setTier('std',this)">Standard</div>
-      <div class="tier-btn" onclick="setTier('full',this)">Full</div>
-    </div>
-    <div class="tier-desc" id="tier-desc">Minimum: 2 task wajib — even kalau lagi capek.</div>
-    <ul class="task-list" id="daily-task-list"></ul>
-    <div class="prog-wrap"><div class="prog-fill" id="task-prog-fill" style="width:0%"></div></div>
-    <div class="prog-text" id="task-prog-text">0 dari 7 selesai</div>
-  </div>
-
-  <!-- ERROR NOTES -->
-  <div class="card">
-    <div class="card-title">Error Pattern — Writing Mistakes</div>
-    <div class="error-input-row">
-      <input class="error-input" id="error-input" placeholder="e.g. masih salah pakai article the/a di noun phrases..." onkeydown="if(event.key==='Enter')addError()">
-      <button class="add-btn" onclick="addError()">+ Catat</button>
-    </div>
-    <div class="error-list" id="error-list"></div>
-  </div>
-
-  <!-- SHADOW LOG -->
-  <div class="card">
-    <div class="card-title">Shadow Log — Listening Session</div>
-    <div class="shadow-input-grid">
-      <input class="sl-input shadow-source" id="sl-source" placeholder="Sumber: e.g. Lex Fridman ep.420, BBC 6min English...">
-      <input class="sl-input" id="sl-dur" placeholder="Durasi: e.g. 20 menit">
-      <input class="sl-input" id="sl-hard" placeholder="Yang susah didengar hari ini...">
-    </div>
-    <button class="add-btn teal" onclick="addShadow()" style="width:100%">+ Catat Sesi</button>
-    <div style="margin-top:10px" id="shadow-list"></div>
-  </div>
-</div>
-
-<!-- ══ JOURNAL ══ -->
-<div class="panel" id="panel-journal">
-  <div class="sec">English Journal Harian</div>
-
-  <!-- Weekly chart -->
-  <div class="chart-container">
-    <div class="chart-header">
-      <div class="chart-title">Skor Jurnal — Mingguan</div>
-    </div>
-    <div class="chart-area"><canvas id="journalChart"></canvas></div>
-    <div class="chart-stats-row" id="journal-chart-stats"></div>
-  </div>
-
-  <!-- Today journal -->
-  <div class="card">
-    <div class="card-title" id="journal-date-label">Journal Hari Ini</div>
-    <div class="prompt-box" id="prompt-box">
-      <div class="prompt-eyebrow">Writing Prompts — Today</div>
-      <ul class="prompt-list" id="prompt-list"></ul>
-    </div>
-    <textarea class="journal-area" id="journal-input" placeholder="Start writing in English here..."></textarea>
-    <div class="journal-footer">
-      <div class="word-count">Words: <em id="word-count">0</em></div>
-      <button class="save-btn" onclick="saveJournal()">Save Draft</button>
-    </div>
-
-    <!-- Rating -->
-    <div class="rating-block">
-      <div class="rating-label">AI Rating — paste score setelah submit ke AI</div>
-      <div class="rating-row">
-        <input type="number" class="rating-input" id="rating-input" min="0" max="10" step="0.1" placeholder="—" oninput="updateRatingBar()">
-        <span class="rating-badge" id="rating-badge">— / 10</span>
-        <div class="rating-bar-wrap"><div class="rating-bar-fill" id="rating-bar-fill"></div></div>
+  <!-- TAB: TODAY -->
+  <div id="tab-today">
+    <div class="section">
+      <div class="section-label">Progress hari ini</div>
+      <div class="progress-meta">
+        <span id="prog-text">0 dari 5 selesai</span>
+        <span id="prog-min">0 / 75 menit</span>
       </div>
-      <textarea class="ai-feedback-area" id="ai-feedback" placeholder="Paste feedback dari AI di sini: kelemahan, saran perbaikan, highlight..."></textarea>
-      <button class="save-rating-btn" onclick="saveRating()">Simpan Rating & Feedback</button>
-    </div>
-  </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="prog-bar" style="width:0%"></div>
+      </div>
 
-  <!-- Journal History -->
-  <div class="card">
-    <div class="card-title">Riwayat Journal (14 hari terakhir)</div>
-    <div id="journal-history"></div>
-  </div>
-</div>
+      <div class="habit" id="h0" onclick="toggleHabit(0)">
+        <div class="check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#111008" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="habit-body">
+          <div class="habit-name">Consume konten English</div>
+          <div class="habit-sub">YouTube / Netflix / podcast topik favorit lo</div>
+        </div>
+        <div class="habit-min">30m</div>
+      </div>
 
-<!-- ══ CALENDAR ══ -->
-<div class="panel" id="panel-calendar">
-  <div class="cal-header">
-    <div class="cal-nav">
-      <button class="cal-nav-btn" onclick="changeMonth(-1)">◀</button>
-      <div class="cal-month" id="cal-month-label">—</div>
-      <button class="cal-nav-btn" onclick="changeMonth(1)">▶</button>
-    </div>
-    <div class="cal-legend">
-      <div class="cal-legend-item"><div class="leg-dot" style="background:rgba(192,80,58,.6)"></div>Selesai</div>
-      <div class="cal-legend-item"><div class="leg-dot" style="background:rgba(212,149,42,.6)"></div>Hari tes</div>
-      <div class="cal-legend-item"><div class="leg-dot" style="border:2px solid var(--teal);background:transparent;border-radius:2px;"></div>Hari ini</div>
-    </div>
-  </div>
-  <div class="cal-grid" id="cal-grid"></div>
-  <div class="chain-info">
-    <div class="chain-label">30 hari terakhir</div>
-    <div class="chain-dots" id="chain-dots"></div>
-  </div>
-</div>
+      <div class="habit" id="h1" onclick="toggleHabit(1)">
+        <div class="check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#111008" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="habit-body">
+          <div class="habit-name">Shadowing</div>
+          <div class="habit-sub">Tiruin native speaker — nada, ritme, pengucapan</div>
+        </div>
+        <div class="habit-min">15m</div>
+      </div>
 
-<!-- ══ PROGRESS ══ -->
-<div class="panel" id="panel-progress">
-  <div style="margin-bottom:14px">
-    <div style="font-family:'Lora',serif;font-size:20px;font-weight:600;font-style:italic;margin-bottom:3px">Progress Fase</div>
-    <div style="font-size:12px;color:var(--ink3)">Centang item yang sudah dikuasai. Progress bar dihitung otomatis.</div>
-  </div>
-  <div class="phase-list" id="phase-list"></div>
-</div>
+      <div class="habit" id="h2" onclick="toggleHabit(2)">
+        <div class="check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#111008" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="habit-body">
+          <div class="habit-name">Self-talk</div>
+          <div class="habit-sub">Ngomong sendiri dalam English — aktivitas sehari-hari</div>
+        </div>
+        <div class="habit-min">10m</div>
+      </div>
 
-<!-- ══ TEST ══ -->
-<div class="panel" id="panel-test">
-  <div style="margin-bottom:14px">
-    <div style="font-family:'Lora',serif;font-size:20px;font-weight:600;font-style:italic;margin-bottom:3px">Tes Bulanan</div>
-    <div style="font-size:12px;color:var(--ink3)">Input skor self-test akhir bulan. Grafik update otomatis.</div>
-  </div>
-  <div class="chart-container">
-    <div class="chart-header">
-      <div class="chart-title">Progress Skor Bulanan</div>
-      <div style="display:flex;gap:4px;flex-wrap:wrap" id="test-chart-tabs">
-        <div class="tier-btn act-std" style="font-size:10px;padding:3px 9px" onclick="setChartView('overall',this)">Overall</div>
-        <div class="tier-btn" style="font-size:10px;padding:3px 9px" onclick="setChartView('listening',this)">Listening</div>
-        <div class="tier-btn" style="font-size:10px;padding:3px 9px" onclick="setChartView('reading',this)">Reading</div>
-        <div class="tier-btn" style="font-size:10px;padding:3px 9px" onclick="setChartView('writing',this)">Writing</div>
-        <div class="tier-btn" style="font-size:10px;padding:3px 9px" onclick="setChartView('speaking',this)">Speaking</div>
-        <div class="tier-btn" style="font-size:10px;padding:3px 9px" onclick="setChartView('all',this)">Semua</div>
+      <div class="habit" id="h3" onclick="toggleHabit(3)">
+        <div class="check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#111008" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="habit-body">
+          <div class="habit-name">Nulis 3 kalimat</div>
+          <div class="habit-sub">Journal harian dalam English — bebas topiknya</div>
+        </div>
+        <div class="habit-min">10m</div>
+      </div>
+
+      <div class="habit" id="h4" onclick="toggleHabit(4)">
+        <div class="check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#111008" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="habit-body">
+          <div class="habit-name">Vocab review (Anki)</div>
+          <div class="habit-sub">Review flashcard kalimat — bukan kata doang</div>
+        </div>
+        <div class="habit-min">10m</div>
       </div>
     </div>
-    <div class="chart-area"><canvas id="testChart"></canvas></div>
-    <div class="chart-stats-row" id="chart-stats"></div>
-  </div>
-  <div class="test-month-grid">
-    <div class="test-input-card">
-      <div class="test-input-title">Input Skor Tes</div>
-      <div style="margin-bottom:11px">
-        <div style="font-size:10px;color:var(--ink3);margin-bottom:5px;text-transform:uppercase;letter-spacing:.08em">Bulan Tes</div>
-        <input type="month" id="test-month-input" class="score-in" style="width:100%;text-align:left;padding:7px 10px;font-size:12px;background:var(--s2);border:1px solid var(--b2);border-radius:7px;color:var(--ink);outline:none;">
+
+    <div class="section">
+      <div class="section-label">Catatan hari ini</div>
+      <textarea id="note-input" placeholder="Kata baru yang lo pelajari, apa yang susah, progress lo..."></textarea>
+      <div class="btn-row">
+        <button class="btn-save" onclick="saveNote()">Simpan</button>
+        <button class="btn-ghost" onclick="resetDay()">Reset hari ini</button>
       </div>
-      <div id="score-inputs"></div>
-      <textarea class="notes-in" id="test-notes" placeholder="Catatan: kelemahan utama, insight, fokus bulan depan..."></textarea>
-      <button class="save-test-btn" onclick="saveTestScore()">Simpan Hasil Tes</button>
-    </div>
-    <div class="test-input-card workflow-card">
-      <div class="test-input-title">Workflow Self-Test</div>
-      <div><strong>Hari 1 (H-1 akhir bulan): Listening + Reading</strong></div>
-      <div>1. ieltsliz.com → listening section 3/4, sekali no pause</div>
-      <div>2. Jawab soal, cek key → skor = bener÷total×10</div>
-      <div>3. Reading 1 passage → 20 menit → skoring sama</div>
-      <br>
-      <div><strong>Hari 2 (akhir bulan): Writing + Speaking</strong></div>
-      <div>1. Writing Task 2 → timer 40 menit, 250+ kata</div>
-      <div>2. Submit ke AI: <em style="color:var(--ink3)">"Rate my IELTS Writing Task 2 on 4 criteria, score 1-10 each"</em></div>
-      <div>3. Speaking Part 2 → record 2 menit → transkrip → AI assessment</div>
-      <br>
-      <div style="font-size:11px;color:var(--ink3)">Sumber gratis: ieltsliz.com · takeielts.britishcouncil.org</div>
     </div>
   </div>
-  <div class="full-card">
-    <div class="card-title">Riwayat Tes</div>
-    <div id="test-history-list"><div style="color:var(--ink3);font-size:13px">Belum ada data.</div></div>
+
+  <!-- TAB: WEEK -->
+  <div id="tab-week" style="display:none">
+    <div class="section">
+      <div class="section-label">7 hari terakhir</div>
+      <div class="week-row" id="week-row"></div>
+    </div>
+    <div class="section">
+      <div class="section-label">Catatan minggu ini</div>
+      <div id="week-notes"></div>
+    </div>
   </div>
+
+  <!-- TAB: IELTS -->
+  <div id="tab-ielts" style="display:none">
+    <div class="section">
+      <div class="section-label">Skor mock test</div>
+      <div class="score-grid" id="score-grid"></div>
+
+      <div class="section-label" style="margin-top:4px;">Update skor</div>
+      <div class="input-grid">
+        <div class="input-row"><label>Listening</label><input id="inp-listening" type="number" min="0" max="9" step="0.5" placeholder="0–9"></div>
+        <div class="input-row"><label>Reading</label><input id="inp-reading" type="number" min="0" max="9" step="0.5" placeholder="0–9"></div>
+        <div class="input-row"><label>Writing</label><input id="inp-writing" type="number" min="0" max="9" step="0.5" placeholder="0–9"></div>
+        <div class="input-row"><label>Speaking</label><input id="inp-speaking" type="number" min="0" max="9" step="0.5" placeholder="0–9"></div>
+      </div>
+      <button class="btn-save" onclick="saveScores()">Simpan skor</button>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Roadmap ETH Zurich</div>
+      <div id="milestone-list"></div>
+    </div>
+  </div>
+
 </div>
 
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── DATA ──
-const DAILY_TASKS=[
-  {id:'anki',    text:'Anki Vocab Review (15–20 kartu)',           time:'⏱ 15 min · Pagi',   tag:'Vocab',    tier:'min'},
-  {id:'grammar', text:'Grammar study atau latihan soal',           time:'⏱ 20 min · Pagi',   tag:'Grammar',  tier:'min'},
-  {id:'read',    text:'Baca artikel / graded reader',              time:'⏱ 15 min · Siang',  tag:'Reading',  tier:'std'},
-  {id:'writing', text:'Writing practice (essay / email / task)',   time:'⏱ 20 min · Siang',  tag:'Writing',  tier:'std'},
-  {id:'speaking',text:'Speaking / Shadowing (record diri sendiri)',time:'⏱ 15 min · Sore',   tag:'Speaking', tier:'std'},
-  {id:'listen',  text:'Listening (podcast / YouTube / series)',    time:'⏱ 20 min · Malam',  tag:'Listening',tier:'full'},
-  {id:'selftalk',text:'Self-talk & berpikir dalam bahasa Inggris', time:'⏱ Sepanjang hari',  tag:'Immersion',tier:'full'},
+const MINS = [30,15,10,10,10];
+const MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'];
+const DAYS_SHORT = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+const MILESTONES = [
+  { label: 'Ganti semua konten ke English', day: 0 },
+  { label: 'First mock test — baseline IELTS', day: 30 },
+  { label: 'Ngomongin topik familiar tanpa translate', day: 60 },
+  { label: 'Bisa ngikutin podcast tanpa subtitle', day: 90 },
+  { label: 'Mock IELTS kedua — target 6.0+', day: 120 },
+  { label: 'Nulis email formal dalam English lancar', day: 150 },
+  { label: 'Mock IELTS ketiga — target 6.5+', day: 180 },
+  { label: 'Speaking simulasi sama orang lain', day: 240 },
+  { label: 'Final IELTS — target 7.5', day: 365 },
 ];
-const TEST_TASKS_D1=[
-  {id:'anki',    text:'Anki Vocab Review (tetap wajib)',           time:'⏱ 15 min',          tag:'Vocab',    tier:'min'},
-  {id:'grammar', text:'Grammar review singkat sebelum tes',        time:'⏱ 10 min',          tag:'Grammar',  tier:'min'},
-  {id:'t_listen',text:'[TES HARI 1] Listening — ieltsliz.com section 3/4, sekali tanpa pause, jawab soal, cek answer key',time:'⏱ 30 min',tag:'TEST',tier:'std'},
-  {id:'t_read',  text:'[TES HARI 1] Reading — 1 passage, 20 menit, jawab pertanyaan, skoring',time:'⏱ 25 min',tag:'TEST',tier:'std'},
-  {id:'t_score1',text:'Catat skor Listening & Reading',            time:'⏱ 5 min',           tag:'TEST',     tier:'std'},
-];
-const TEST_TASKS_D2=[
-  {id:'anki',    text:'Anki Vocab Review (tetap wajib)',           time:'⏱ 15 min',          tag:'Vocab',    tier:'min'},
-  {id:'grammar', text:'Grammar review singkat sebelum tes',        time:'⏱ 10 min',          tag:'Grammar',  tier:'min'},
-  {id:'t_write', text:'[TES HARI 2] Writing Task 2 — timer 40 menit, 250+ kata, submit ke AI dengan rubrik IELTS',time:'⏱ 50 min',tag:'TEST',tier:'std'},
-  {id:'t_speak', text:'[TES HARI 2] Speaking Part 2 — record 2 menit, transkrip, submit ke AI',time:'⏱ 20 min',tag:'TEST',tier:'std'},
-  {id:'t_input', text:'Input semua 4 skor ke tab Tes Bulanan',     time:'⏱ 5 min',           tag:'TEST',     tier:'std'},
-];
+const IELTS_TARGETS = { listening: 7.5, reading: 7.5, writing: 7.0, speaking: 7.0 };
 
-const PHASES=[
-  {id:'p1',num:'01',name:'Survival & Foundation',meta:'3–4 bulan · A0→A1',items:[
-    {id:'p1_01',text:'Hafal salam & perkenalan dasar',tag:'Speaking'},
-    {id:'p1_02',text:'Numbers, colors, days, months',tag:'Vocab'},
-    {id:'p1_03',text:'Kata kerja paling common: be, have, go, do, want, need, like',tag:'Grammar'},
-    {id:'p1_04',text:'Oxford 500 vocabulary',tag:'Vocab'},
-    {id:'p1_05',text:'Kalimat dasar S + V + O',tag:'Grammar'},
-    {id:'p1_06',text:'Pronoun: I, you, he, she, it, we, they',tag:'Grammar'},
-    {id:'p1_07',text:'Present simple tense',tag:'Grammar'},
-    {id:'p1_08',text:'Present continuous tense',tag:'Grammar'},
-    {id:'p1_09',text:'To be: am/is/are',tag:'Grammar'},
-    {id:'p1_10',text:'Pertanyaan dasar: What? Where? Who? When?',tag:'Grammar'},
-    {id:'p1_11',text:'BBC Learning English (Elementary) rutin',tag:'Listening'},
-    {id:'p1_12',text:'Journal harian 3–5 kalimat',tag:'Writing'},
-    {id:'p1_13',text:'[MILESTONE] Bisa kenalan & nanya arah dalam bahasa Inggris',tag:'Milestone'},
-  ]},
-  {id:'p2',num:'02',name:'Elementary Fluency',meta:'4–5 bulan · A1→A2',items:[
-    {id:'p2_01',text:'Past simple (I went, I ate)',tag:'Grammar'},
-    {id:'p2_02',text:'Past continuous (I was eating)',tag:'Grammar'},
-    {id:'p2_03',text:'Future: will + going to',tag:'Grammar'},
-    {id:'p2_04',text:'Comparatives & superlatives',tag:'Grammar'},
-    {id:'p2_05',text:'Modal verbs: can, could, would, should, must',tag:'Grammar'},
-    {id:'p2_06',text:'Prepositions of time & place',tag:'Grammar'},
-    {id:'p2_07',text:'Conjunctions: and, but, so, because, although',tag:'Grammar'},
-    {id:'p2_08',text:'Vocab 1500–2000 kata (Anki Core 2000)',tag:'Vocab'},
-    {id:'p2_09',text:'Graded Readers Level 1–2 (Oxford Bookworms)',tag:'Reading'},
-    {id:'p2_10',text:'Nonton Friends dengan subtitle Inggris',tag:'Listening'},
-    {id:'p2_11',text:'[MILESTONE] Bisa nulis email sederhana',tag:'Milestone'},
-    {id:'p2_12',text:'[MILESTONE] Bisa ngobrol basic 5–10 menit',tag:'Milestone'},
-  ]},
-  {id:'p3',num:'03',name:'Intermediate — Natural Conversational',meta:'5–6 bulan · B1→B2',items:[
-    {id:'p3_01',text:'Present perfect (I have done)',tag:'Grammar'},
-    {id:'p3_02',text:'Present perfect continuous',tag:'Grammar'},
-    {id:'p3_03',text:'Passive voice',tag:'Grammar'},
-    {id:'p3_04',text:'Conditional: 1st, 2nd, 3rd',tag:'Grammar'},
-    {id:'p3_05',text:'Reported speech',tag:'Grammar'},
-    {id:'p3_06',text:'Relative clauses (who, which, that)',tag:'Grammar'},
-    {id:'p3_07',text:'Phrasal verbs top 200',tag:'Vocab'},
-    {id:'p3_08',text:'Idioms common top 100',tag:'Vocab'},
-    {id:'p3_09',text:'Shadowing technique rutin 3x seminggu',tag:'Speaking'},
-    {id:'p3_10',text:'Nulis essay argumentatif 300–400 kata',tag:'Writing'},
-    {id:'p3_11',text:'Mulai italki / HelloTalk dengan native',tag:'Speaking'},
-    {id:'p3_12',text:'[MILESTONE] Nonton YouTube tanpa subtitle, ngerti 80%+',tag:'Milestone'},
-    {id:'p3_13',text:'[MILESTONE] Berpikir dalam bahasa Inggris untuk hal simpel',tag:'Milestone'},
-  ]},
-  {id:'p4',num:'04',name:'Academic English',meta:'4–5 bulan · B2→C1',items:[
-    {id:'p4_01',text:'Nulis thesis statement yang kuat',tag:'Writing'},
-    {id:'p4_02',text:'Argumentasi & counterargument dalam essay',tag:'Writing'},
-    {id:'p4_03',text:'Paraphrasing & citing sumber dengan benar',tag:'Writing'},
-    {id:'p4_04',text:'Cohesion devices: however, therefore, moreover',tag:'Writing'},
-    {id:'p4_05',text:'Hedging language: it seems, it is likely',tag:'Writing'},
-    {id:'p4_06',text:'IMRaD structure (Intro-Method-Result-Discussion)',tag:'Writing'},
-    {id:'p4_07',text:'Academic Word List (Coxhead 570 words)',tag:'Vocab'},
-    {id:'p4_08',text:'Baca jurnal IEEE/ACM/arxiv — minimal 5 paper',tag:'Reading'},
-    {id:'p4_09',text:'Skimming & scanning technique',tag:'Reading'},
-    {id:'p4_10',text:'Presentasi formal dengan Q&A bahasa Inggris',tag:'Speaking'},
-    {id:'p4_11',text:'[MILESTONE] Nulis essay akademik 800–1000 kata',tag:'Milestone'},
-    {id:'p4_12',text:'[MILESTONE] IELTS mock test target 6.5',tag:'Milestone'},
-  ]},
-  {id:'p5',num:'05',name:'Professional English — IT & Tech',meta:'4–5 bulan · C1',items:[
-    {id:'p5_01',text:'Email profesional: request, decline, follow-up',tag:'Writing'},
-    {id:'p5_02',text:'Meeting language: propose, disagree, conclude',tag:'Speaking'},
-    {id:'p5_03',text:'Nulis technical documentation',tag:'Writing'},
-    {id:'p5_04',text:'Presentasi teknis ke non-technical audience',tag:'Speaking'},
-    {id:'p5_05',text:'Vocab AI/ML, robotics, software, DevOps',tag:'Vocab'},
-    {id:'p5_06',text:'STAR method untuk interview behavioral',tag:'Speaking'},
-    {id:'p5_07',text:'CV / Resume bahasa Inggris ATS-friendly',tag:'Writing'},
-    {id:'p5_08',text:'LinkedIn profile dalam bahasa Inggris',tag:'Writing'},
-    {id:'p5_09',text:'README & GitHub documentation',tag:'Writing'},
-    {id:'p5_10',text:'[MILESTONE] Mock interview teknis dalam bahasa Inggris',tag:'Milestone'},
-    {id:'p5_11',text:'[MILESTONE] IELTS target 7.0+',tag:'Milestone'},
-  ]},
-  {id:'p6',num:'06',name:'Mastery — Near-Native Fluency',meta:'6–12 bulan+ · C1→C2',items:[
-    {id:'p6_01',text:'Nuance & register switching (formal↔casual)',tag:'Speaking'},
-    {id:'p6_02',text:'Humor, sarcasm, wordplay dalam bahasa Inggris',tag:'Speaking'},
-    {id:'p6_03',text:'Baca novel kompleks tanpa kamus',tag:'Reading'},
-    {id:'p6_04',text:'Persuasive & rhetorical writing',tag:'Writing'},
-    {id:'p6_05',text:'Publish artikel / blog teknis dalam bahasa Inggris',tag:'Writing'},
-    {id:'p6_06',text:'Kontribusi open source (PR, review, issues)',tag:'Writing'},
-    {id:'p6_07',text:'Public speaking di meetup / conference',tag:'Speaking'},
-    {id:'p6_08',text:'Semua apps & note-taking dalam bahasa Inggris',tag:'Immersion'},
-    {id:'p6_09',text:'Berpikir & self-talk 100% dalam bahasa Inggris',tag:'Immersion'},
-    {id:'p6_10',text:'[MILESTONE] Submit paper ke conference atau journal',tag:'Milestone'},
-  ]},
-];
+let S = JSON.parse(localStorage.getItem('eng_v2') || 'null') || {
+  habits: [false,false,false,false,false],
+  streak: 0, totalDays: 0, lastDate: null,
+  history: {}, notes: {},
+  scores: { listening: null, reading: null, writing: null, speaking: null },
+  milestones: {}
+};
 
-const SCORE_SKILLS=[
-  {id:'listening',label:'Listening',color:'#6a9fdf'},
-  {id:'reading',  label:'Reading',  color:'#2ab8a0'},
-  {id:'writing',  label:'Writing',  color:'#9b78e0'},
-  {id:'speaking', label:'Speaking', color:'#d4952a'},
-];
-
-// Rotating prompts — 5 sets, rotate by day of year
-const PROMPT_SETS=[
-  [
-    "Describe something interesting you saw, heard, or read today.",
-    "What is one thing you did today, and how did it make you feel?",
-    "If you could change one thing about your daily routine, what would it be and why?",
-  ],
-  [
-    "What is a skill you want to improve in the next 3 months? How will you practice it?",
-    "Describe your ideal Saturday morning in detail.",
-    "What is something most people misunderstand about you?",
-  ],
-  [
-    "Tell a short story about the last time something surprised you.",
-    "What topic could you talk about for 10 minutes without preparation?",
-    "Compare two things you like (two foods, two places, two habits). Which is better and why?",
-  ],
-  [
-    "What is a piece of advice you would give your younger self?",
-    "Describe a challenge you are currently facing. What are your options?",
-    "If you had one extra hour every day, how would you use it?",
-  ],
-  [
-    "What is something you are grateful for today, and why does it matter?",
-    "Describe a person who has influenced you. How did they change your thinking?",
-    "What does success mean to you? Has your definition changed over time?",
-  ],
-];
-
-const DAYS=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-const MONTHS_ID=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-const MONTHS_SHORT=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-
-// ── STATE ──
-let state={stamps:{},tasks:{},journals:{},journalRatings:{},checks:{},weeklyReviews:{},testScores:{},errors:[],shadows:[]};
-let currentTier='min';
-let chartView='overall';
-let calYear,calMonth;
-
-function loadState(){
-  try{
-    const s=localStorage.getItem('english_chain_v4');
-    if(s){const p=JSON.parse(s);state={...state,...p};}
-    // migrate old journal format
-    if(!state.journalRatings)state.journalRatings={};
-    if(!state.errors)state.errors=[];
-    if(!state.shadows)state.shadows=[];
-  }catch(e){}
+function todayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
 }
-function saveState(){localStorage.setItem('english_chain_v4',JSON.stringify(state));}
-function pad(n){return String(n).padStart(2,'0');}
-function todayKey(){const d=new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;}
-function formatDateFull(d){return `${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS_ID[d.getMonth()]} ${d.getFullYear()}`;}
-function monthLabel(ym){const[y,m]=ym.split('-');return `${MONTHS_SHORT[parseInt(m)-1]} '${y.slice(2)}`;}
-function calcStreak(){let s=0,d=new Date();for(let i=0;i<365;i++){const k=`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;if(state.stamps[k]){s++;d.setDate(d.getDate()-1);}else if(i===0){d.setDate(d.getDate()-1);}else break;}return s;}
-function calcTotalDays(){return Object.values(state.stamps).filter(Boolean).length;}
-function activePhase(){for(let i=PHASES.length-1;i>=0;i--){if(PHASES[i].items.some(it=>state.checks[it.id]))return i+1;}return 1;}
-function getTestDays(y,m){const t=new Date(y,m+1,0).getDate();return[t-1,t];}
-function isTestDay(k){const d=new Date(k+'T00:00:00');return getTestDays(d.getFullYear(),d.getMonth()).includes(d.getDate());}
-function isTestDay1(k){const d=new Date(k+'T00:00:00');return d.getDate()===getTestDays(d.getFullYear(),d.getMonth())[0];}
-function isTestDay2(k){const d=new Date(k+'T00:00:00');return d.getDate()===getTestDays(d.getFullYear(),d.getMonth())[1];}
-function isSunday(){return new Date().getDay()===0;}
-function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(type?' '+type:'')+' show';setTimeout(()=>t.classList.remove('show'),2500);}
-function getDayOfYear(){const n=new Date();return Math.floor((n-new Date(n.getFullYear(),0,0))/864e5);}
-function countWords(s){return s.trim().split(/\s+/).filter(w=>w.length>0).length;}
+function fmtDate(d) {
+  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+function save() { localStorage.setItem('eng_v2', JSON.stringify(S)); }
 
-// ── TAB ──
-function switchTab(tab){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('panel-'+tab).classList.add('active');
-  document.getElementById('tab-'+tab).classList.add('active');
-  if(tab==='calendar')renderCalendar();
-  if(tab==='progress')renderProgress();
-  if(tab==='test'){renderTestInput();renderTestChart();renderTestHistory();}
-  if(tab==='journal'){renderJournalChart();renderJournalHistory();loadJournalToday();}
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2000);
 }
 
-// ── TODAY ──
-function getTodayTasks(){const k=todayKey();if(isTestDay1(k))return TEST_TASKS_D1;if(isTestDay2(k))return TEST_TASKS_D2;return DAILY_TASKS;}
-
-function renderToday(){
-  const key=todayKey();const d=new Date();
-  const isTd1=isTestDay1(key),isTd2=isTestDay2(key),isTes=isTd1||isTd2;
-
-  // Weekly review
-  const wrWrap=document.getElementById('weekly-review-wrap');
-  // Get last Sunday's key
-  const nowD=new Date();
-  const lastSun=new Date(nowD);
-  const todayDow=nowD.getDay(); // 0=Sun
-  if(todayDow===0){
-    // today IS Sunday — form to fill this week
-    const wr=state.weeklyReviews[key]||{};
-    wrWrap.innerHTML=`<div class="wr-card">
-      <div class="wr-title">Weekly Review — Minggu ini gimana?</div>
-      <div class="wr-q">Konsisten berapa hari dari 7?</div>
-      <input type="text" class="wr-input" id="wr1" value="${wr.q1||''}" placeholder="e.g. 5 dari 7 hari">
-      <div class="wr-q">Skill yang paling kurang dapat porsi?</div>
-      <input type="text" class="wr-input" id="wr2" value="${wr.q2||''}" placeholder="e.g. Speaking — belum shadowing sama sekali">
-      <div class="wr-q">Satu fokus utama minggu depan?</div>
-      <input type="text" class="wr-input" id="wr3" value="${wr.q3||''}" placeholder="e.g. Selesaiin conditional type 2 dan 3">
-      <button class="wr-save" onclick="saveWeeklyReview()">Simpan Review</button>
-    </div>`;
-  } else {
-    // Not Sunday — show last Sunday's review (read-only, collapsible)
-    lastSun.setDate(nowD.getDate()-todayDow);
-    const lastSunKey=`${lastSun.getFullYear()}-${pad(lastSun.getMonth()+1)}-${pad(lastSun.getDate())}`;
-    const wr=state.weeklyReviews[lastSunKey];
-    const lastSunLabel=`${lastSun.getDate()} ${MONTHS_ID[lastSun.getMonth()]}`;
-    if(wr&&(wr.q1||wr.q2||wr.q3)){
-      wrWrap.innerHTML=`<div class="wr-card" style="background:rgba(42,184,160,0.04)">
-        <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="this.parentElement.querySelector('.wr-body').style.display=this.parentElement.querySelector('.wr-body').style.display==='none'?'block':'none';this.querySelector('.wr-chev').textContent=this.parentElement.querySelector('.wr-body').style.display==='none'?'▸':'▾'">
-          <div class="wr-title" style="margin-bottom:0">Review Minggu Lalu <span style="font-size:10px;font-weight:400;color:var(--ink3)">${lastSunLabel}</span></div>
-          <span class="wr-chev" style="color:var(--ink3);font-size:11px">▾</span>
-        </div>
-        <div class="wr-body" style="margin-top:12px">
-          ${wr.q1?`<div class="wr-q">Konsisten berapa hari?</div><div style="font-size:13px;color:var(--ink2);margin-bottom:10px">${wr.q1.replace(/</g,'&lt;')}</div>`:''}
-          ${wr.q2?`<div class="wr-q">Skill yang kurang porsi?</div><div style="font-size:13px;color:var(--ink2);margin-bottom:10px">${wr.q2.replace(/</g,'&lt;')}</div>`:''}
-          ${wr.q3?`<div class="wr-q">Fokus minggu ini</div><div style="font-size:13px;color:var(--teal);font-weight:600">${wr.q3.replace(/</g,'&lt;')}</div>`:''}
-        </div>
-      </div>`;
+function checkNewDay() {
+  const today = todayStr();
+  if (S.lastDate && S.lastDate !== today) {
+    const prev = new Date(S.lastDate.replace(/(\d+)-(\d+)-(\d+)/, '$1/$2/$3'));
+    const diff = Math.round((new Date() - prev) / 86400000);
+    const done = S.habits.filter(Boolean).length;
+    if (done > 0) {
+      S.history[S.lastDate] = done;
+      S.totalDays++;
+      S.streak = done >= 3 && diff <= 2 ? S.streak + 1 : 0;
     } else {
-      wrWrap.innerHTML='';
+      S.streak = 0;
     }
+    S.habits = [false,false,false,false,false];
   }
-
-  // Hero
-  const hw=document.getElementById('today-hero-wrap');
-  if(isTes){
-    hw.innerHTML=`<div class="test-hero">
-      <div>
-        <div class="test-tag">${isTd1?'TES HARI 1: LISTENING + READING':'TES HARI 2: WRITING + SPEAKING'}</div>
-        <div class="test-title">${formatDateFull(d)}</div>
-        <div style="font-size:12px;color:var(--ink3);margin-top:4px">${isTd1?'Dengerin audio, jawab soal, catat skor.':'Tulis essay, record speaking, submit ke AI, input skor.'}</div>
-      </div>
-      <button class="stamp-btn${state.stamps[key]?' done':''}" onclick="stampToday()">${state.stamps[key]?'✓ Selesai':'✕ Tandai Selesai'}</button>
-    </div>`;
-  } else {
-    hw.innerHTML=`<div class="today-hero">
-      <div>
-        <div class="hero-date">${formatDateFull(d).toUpperCase()}</div>
-        <div class="hero-title">Jangan putus<br><em>rantainya.</em></div>
-      </div>
-      <button class="stamp-btn${state.stamps[key]?' done':''}" onclick="stampToday()">${state.stamps[key]?'✓ Selesai':'✕ Tandai Selesai'}</button>
-    </div>`;
-  }
-
-  renderTasks();
-  renderErrors();
-  renderShadows();
-
-  const streak=calcStreak();
-  document.getElementById('streak-count').textContent=streak;
-  document.getElementById('stat-streak').textContent=streak;
-  document.getElementById('stat-total').textContent=calcTotalDays();
-  const todayTasks=getTodayTasks();
-  const tasks=state.tasks[key]||{};
-  const done=todayTasks.filter(t=>tasks[t.id]).length;
-  document.getElementById('stat-tasks').textContent=`${done}/${todayTasks.length}`;
-  document.getElementById('stat-phase').textContent=`F${activePhase()}`;
+  if (S.lastDate !== today) S.lastDate = today;
+  save();
 }
 
-function setTier(tier,btn){
-  currentTier=tier;
-  document.querySelectorAll('.tier-btn').forEach(b=>{if(b.closest('.tier-row'))b.className='tier-btn';});
-  if(tier==='min'){btn.className='tier-btn act-min';document.getElementById('tier-desc').textContent='Minimum: 2 task wajib — even kalau lagi capek.';}
-  else if(tier==='std'){btn.className='tier-btn act-std';document.getElementById('tier-desc').textContent='Standard: 5 task — target hari biasa.';}
-  else{btn.className='tier-btn act-full';document.getElementById('tier-desc').textContent='Full: 7 task — buat hari lo punya banyak waktu.';}
-  renderTasks();
+function toggleHabit(i) {
+  S.habits[i] = !S.habits[i];
+  document.getElementById('h'+i).classList.toggle('done', S.habits[i]);
+  updateProgress(); save();
 }
 
-function renderTasks(){
-  const key=todayKey();const tasks=state.tasks[key]||{};
-  const todayTasks=getTodayTasks();
-  const tierOrder={min:0,std:1,full:2};
-  const list=document.getElementById('daily-task-list');
-  list.innerHTML='';
-  let vis=0,doneVis=0;
-  todayTasks.forEach(t=>{
-    const checked=!!tasks[t.id];
-    const tv=tierOrder[t.tier]||0,cv=tierOrder[currentTier]||0;
-    const isVis=tv<=cv;
-    if(isVis){vis++;if(checked)doneVis++;}
-    const li=document.createElement('li');
-    li.className='task-item'+(checked?' checked':'')+(isVis?'':' tier-hidden');
-    li.onclick=()=>toggleTask(t.id);
-    li.innerHTML=`<div class="t-dot ${t.tag==='TEST'?'test':t.tier}"></div>
-      <div class="task-check"><span class="ck-icon">✓</span></div>
-      <div><div class="task-text" style="${t.tag==='TEST'?'color:var(--ac)':''}">${t.text}</div>
-      <span class="task-time">${t.time} · <strong>${t.tag}</strong></span></div>`;
-    list.appendChild(li);
+function updateProgress() {
+  const done = S.habits.filter(Boolean).length;
+  const mins = S.habits.reduce((s,v,i) => s+(v?MINS[i]:0), 0);
+  const pct = Math.round(done/5*100);
+  document.getElementById('prog-text').textContent = `${done} dari 5 selesai`;
+  document.getElementById('prog-min').textContent = `${mins} / 75 menit`;
+  document.getElementById('prog-bar').style.width = pct+'%';
+  document.getElementById('stat-pct').textContent = pct+'%';
+  document.getElementById('stat-streak').textContent = S.streak;
+  document.getElementById('stat-total').textContent = S.totalDays;
+}
+
+function saveNote() {
+  const v = document.getElementById('note-input').value.trim();
+  if (!v) return;
+  S.notes[todayStr()] = v; save();
+  toast('Catatan tersimpan ✓');
+}
+
+function resetDay() {
+  if (!confirm('Reset habit hari ini?')) return;
+  S.habits = [false,false,false,false,false];
+  for(let i=0;i<5;i++) document.getElementById('h'+i).classList.remove('done');
+  updateProgress(); save();
+}
+
+function switchTab(t) {
+  ['today','week','ielts'].forEach(id => {
+    document.getElementById('tab-'+id).style.display = id===t ? 'block' : 'none';
   });
-  const pct=vis>0?Math.round(doneVis/vis*100):0;
-  document.getElementById('task-prog-fill').style.width=pct+'%';
-  document.getElementById('task-prog-text').textContent=`${doneVis} dari ${vis} selesai`;
-  document.getElementById('stat-tasks').textContent=`${todayTasks.filter(t=>tasks[t.id]).length}/${todayTasks.length}`;
+  document.querySelectorAll('.tab').forEach((el,i) => {
+    el.classList.toggle('active', ['today','week','ielts'][i]===t);
+  });
+  if (t==='week') renderWeek();
+  if (t==='ielts') renderIelts();
 }
 
-function toggleTask(id){const k=todayKey();if(!state.tasks[k])state.tasks[k]={};state.tasks[k][id]=!state.tasks[k][id];saveState();renderTasks();}
-function stampToday(){const k=todayKey();if(state.stamps[k])return;state.stamps[k]=true;saveState();renderToday();showToast('🔥 Rantai terjaga!');}
-function saveWeeklyReview(){const k=todayKey();state.weeklyReviews[k]={q1:document.getElementById('wr1').value.trim(),q2:document.getElementById('wr2').value.trim(),q3:document.getElementById('wr3').value.trim()};saveState();showToast('Weekly review tersimpan!');}
-
-// ── ERROR NOTES ──
-function addError(){
-  const inp=document.getElementById('error-input');
-  const text=inp.value.trim();
-  if(!text)return;
-  state.errors.unshift({id:Date.now(),text,date:todayKey(),resolved:false});
-  saveState();inp.value='';renderErrors();
-}
-function toggleError(id){
-  const e=state.errors.find(e=>e.id===id);
-  if(e){e.resolved=!e.resolved;saveState();renderErrors();}
-}
-function deleteError(id){
-  state.errors=state.errors.filter(e=>e.id!==id);
-  saveState();renderErrors();
-}
-function renderErrors(){
-  const list=document.getElementById('error-list');
-  const active=state.errors.filter(e=>!e.resolved);
-  const resolved=state.errors.filter(e=>e.resolved);
-  const all=[...active,...resolved].slice(0,20);
-  if(!all.length){list.innerHTML=`<div class="empty-state">Belum ada error yang dicatat — bagus, atau belum dicek 😄</div>`;return;}
-  list.innerHTML=all.map(e=>`
-    <div class="error-item${e.resolved?' resolved':''}">
-      <div class="error-left">
-        <div class="error-text">${e.text.replace(/</g,'&lt;')}</div>
-        <div class="error-date">${e.date}${e.resolved?' · ✓ resolved':''}</div>
-      </div>
-      <div class="error-actions">
-        <button class="e-btn resolve" onclick="toggleError(${e.id})" title="${e.resolved?'Reopen':'Mark resolved'}">${e.resolved?'↩':'✓'}</button>
-        <button class="e-btn del" onclick="deleteError(${e.id})" title="Hapus">✕</button>
-      </div>
-    </div>`).join('');
-}
-
-// ── SHADOW LOG ──
-function addShadow(){
-  const src=document.getElementById('sl-source').value.trim();
-  const dur=document.getElementById('sl-dur').value.trim();
-  const hard=document.getElementById('sl-hard').value.trim();
-  if(!src){showToast('Isi sumber dulu!','red');return;}
-  state.shadows.unshift({id:Date.now(),source:src,duration:dur,difficulty:hard,date:todayKey()});
-  saveState();
-  document.getElementById('sl-source').value='';
-  document.getElementById('sl-dur').value='';
-  document.getElementById('sl-hard').value='';
-  renderShadows();showToast('Shadow log tersimpan!');
-}
-function deleteShadow(id){state.shadows=state.shadows.filter(s=>s.id!==id);saveState();renderShadows();}
-function renderShadows(){
-  const list=document.getElementById('shadow-list');
-  const recent=state.shadows.slice(0,10);
-  if(!recent.length){list.innerHTML=`<div class="empty-state">Belum ada sesi listening yang dicatat.</div>`;return;}
-  list.innerHTML=recent.map(s=>`
-    <div class="shadow-item">
-      <div class="shadow-left">
-        <div class="shadow-source-tag">${s.source.replace(/</g,'&lt;')}</div>
-        ${s.duration?`<div class="shadow-dur">⏱ ${s.duration}</div>`:''}
-        ${s.difficulty?`<div class="shadow-note">Susah: ${s.difficulty.replace(/</g,'&lt;')}</div>`:''}
-        <div class="shadow-date">${s.date}</div>
-      </div>
-      <button class="e-btn del" onclick="deleteShadow(${s.id})" title="Hapus">✕</button>
-    </div>`).join('');
-}
-
-// ── JOURNAL ──
-function getPrompts(){
-  const setIdx=getDayOfYear()%PROMPT_SETS.length;
-  return PROMPT_SETS[setIdx];
-}
-
-function loadJournalToday(){
-  const key=todayKey();
-  const d=new Date();
-  document.getElementById('journal-date-label').textContent=`Journal — ${formatDateFull(d)}`;
-
-  // Prompts
-  const prompts=getPrompts();
-  document.getElementById('prompt-list').innerHTML=prompts.map(p=>`<li>${p}</li>`).join('');
-
-  // Existing journal
-  const existing=state.journals[key]||'';
-  document.getElementById('journal-input').value=existing;
-  updateWordCount();
-
-  // Existing rating
-  const rating=state.journalRatings[key];
-  if(rating){
-    document.getElementById('rating-input').value=rating.score;
-    document.getElementById('ai-feedback').value=rating.feedback||'';
-    updateRatingBar();
-  } else {
-    document.getElementById('rating-input').value='';
-    document.getElementById('ai-feedback').value='';
-    document.getElementById('rating-bar-fill').style.width='0%';
-    document.getElementById('rating-badge').textContent='— / 10';
+function renderWeek() {
+  const row = document.getElementById('week-row');
+  const notesEl = document.getElementById('week-notes');
+  row.innerHTML = ''; let notesHtml = '';
+  const today = new Date();
+  for (let i=6; i>=0; i--) {
+    const d = new Date(today); d.setDate(d.getDate()-i);
+    const key = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    const isToday = i===0;
+    const cnt = S.history[key] || (isToday ? S.habits.filter(Boolean).length : 0);
+    const cls = cnt>=5 ? 'full' : (cnt>=3 ? 'partial' : (isToday ? 'today-ring' : ''));
+    row.innerHTML += `<div class="week-cell"><div class="wc-label">${DAYS_SHORT[d.getDay()]}</div><div class="wc-dot ${cls}">${d.getDate()}</div></div>`;
+    if (S.notes[key]) notesHtml += `<div class="note-item"><div class="note-date">${fmtDate(d)}</div><div class="note-text">${S.notes[key]}</div></div>`;
   }
+  notesEl.innerHTML = notesHtml || '<div class="empty">Belum ada catatan minggu ini.</div>';
 }
 
-function updateWordCount(){
-  const val=document.getElementById('journal-input').value;
-  const wc=countWords(val);
-  document.getElementById('word-count').textContent=wc;
-}
-
-function saveJournal(){
-  const k=todayKey();
-  const v=document.getElementById('journal-input').value.trim();
-  if(!v){showToast('Tulis dulu!','red');return;}
-  state.journals[k]=v;
-  saveState();showToast('Journal tersimpan!');
-  renderJournalHistory();
-}
-
-function updateRatingBar(){
-  const v=parseFloat(document.getElementById('rating-input').value);
-  const badge=document.getElementById('rating-badge');
-  const fill=document.getElementById('rating-bar-fill');
-  if(isNaN(v)||v<0){badge.textContent='— / 10';fill.style.width='0%';}
-  else{const clamped=Math.min(10,v);badge.textContent=clamped.toFixed(1)+' / 10';fill.style.width=(clamped/10*100)+'%';}
-}
-
-function saveRating(){
-  const k=todayKey();
-  const v=parseFloat(document.getElementById('rating-input').value);
-  if(isNaN(v)||v<0||v>10){showToast('Score harus 0–10!','red');return;}
-  const feedback=document.getElementById('ai-feedback').value.trim();
-  state.journalRatings[k]={score:v,feedback,date:new Date().toISOString()};
-  saveState();showToast('Rating tersimpan!');
-  renderJournalChart();renderJournalHistory();
-}
-
-function renderJournalHistory(){
-  const c=document.getElementById('journal-history');
-  const entries=Object.entries(state.journals)
-    .sort((a,b)=>b[0].localeCompare(a[0])).slice(0,14);
-  if(!entries.length){c.innerHTML=`<div class="empty-state">Belum ada journal.</div>`;return;}
-  c.innerHTML=entries.map(([k,v])=>{
-    const rating=state.journalRatings[k];
-    const wc=countWords(v);
-    const d=new Date(k+'T00:00:00');
-    const preview=v.length>200?v.slice(0,200)+'…':v;
-    return `<div class="jh-entry">
-      <div class="jh-header">
-        <div>
-          <div class="jh-date">${formatDateFull(d).toUpperCase()}</div>
-          <div class="jh-wc">${wc} words</div>
-        </div>
-        ${rating?`<div class="jh-score">${rating.score.toFixed(1)}/10</div>`:''}
-      </div>
-      <div class="jh-text">${preview.replace(/</g,'&lt;').replace(/\n/g,'<br>')}</div>
-      ${rating&&rating.feedback?`<div class="jh-feedback">${rating.feedback.replace(/</g,'&lt;')}</div>`:''}
+function renderIelts() {
+  const skills = ['listening','reading','writing','speaking'];
+  const grid = document.getElementById('score-grid');
+  grid.innerHTML = skills.map(k => {
+    const v = S.scores[k];
+    const t = IELTS_TARGETS[k];
+    const hit = v !== null && v >= t;
+    const pct = v !== null ? Math.round((v/9)*100) : 0;
+    return `<div class="score-card">
+      <div class="score-card-label">${k.charAt(0).toUpperCase()+k.slice(1)}</div>
+      <div class="score-val${hit?' hit':''}">${v !== null ? v : '—'}</div>
+      <div class="score-target">target: ${t}</div>
+      <div class="score-bar"><div class="score-bar-fill" style="width:${pct}%"></div></div>
     </div>`;
   }).join('');
-}
 
-// ── JOURNAL WEEKLY CHART ──
-function getWeekStart(dateStr){
-  const d=new Date(dateStr+'T00:00:00');
-  const dow=d.getDay();
-  const mon=new Date(d);mon.setDate(d.getDate()-((dow+6)%7));
-  return `${mon.getFullYear()}-${pad(mon.getMonth()+1)}-${pad(mon.getDate())}`;
-}
-
-function renderJournalChart(){
-  const canvas=document.getElementById('journalChart');
-  const ctx=canvas.getContext('2d');
-  const DPR=window.devicePixelRatio||1;
-  const W=canvas.parentElement.clientWidth||600;const H=160;
-  canvas.width=W*DPR;canvas.height=H*DPR;canvas.style.width=W+'px';canvas.style.height=H+'px';
-  ctx.scale(DPR,DPR);ctx.clearRect(0,0,W,H);
-
-  // Group ratings by week, last 8 weeks
-  const weekMap={};
-  Object.entries(state.journalRatings).forEach(([k,r])=>{
-    const ws=getWeekStart(k);
-    if(!weekMap[ws])weekMap[ws]={scores:[],count:0};
-    weekMap[ws].scores.push(r.score);
-    weekMap[ws].count++;
+  skills.forEach(k => {
+    const inp = document.getElementById('inp-'+k);
+    if (S.scores[k] !== null) inp.value = S.scores[k];
   });
 
-  // Also count journal days per week
-  const journalWeeks={};
-  Object.keys(state.journals).forEach(k=>{
-    const ws=getWeekStart(k);
-    journalWeeks[ws]=(journalWeeks[ws]||0)+1;
+  if (!S.milestones) S.milestones = {};
+
+  const ml = document.getElementById('milestone-list');
+  ml.innerHTML = MILESTONES.map((m, i) => {
+    const autoDone = S.totalDays >= m.day && m.day > 0;
+    const manualDone = S.milestones[i] === true;
+    const done = autoDone || manualDone || (m.day === 0 && (S.totalDays > 0 || manualDone));
+    return `<div class="milestone" data-ms="${i}">
+      <div class="ms-check${done?' done':''}">
+        ${done ? `<svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#0d0f12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>` : ''}
+      </div>
+      <div class="ms-body">${m.label}</div>
+      <div class="ms-day">hari ${m.day}</div>
+    </div>`;
+  }).join('');
+
+  ml.onclick = (e) => {
+    const el = e.target.closest('[data-ms]');
+    if (!el) return;
+    const i = parseInt(el.dataset.ms);
+    S.milestones[i] = !S.milestones[i];
+    save(); renderIelts(); toast(S.milestones[i] ? 'Milestone tercapai ✓' : 'Milestone di-uncheck');
+  };
+}
+
+function saveScores() {
+  ['listening','reading','writing','speaking'].forEach(k => {
+    const v = parseFloat(document.getElementById('inp-'+k).value);
+    if (!isNaN(v) && v >= 0 && v <= 9) S.scores[k] = v;
   });
-
-  const allWeeks=[...new Set([...Object.keys(weekMap),...Object.keys(journalWeeks)])].sort().slice(-8);
-
-  if(!allWeeks.length){
-    ctx.fillStyle='#4a4438';ctx.font='13px Manrope,sans-serif';ctx.textAlign='center';
-    ctx.fillText('Mulai journal dan rate tulisanmu untuk melihat grafik.',W/2,H/2);
-    document.getElementById('journal-chart-stats').innerHTML='';return;
-  }
-
-  const PAD={top:14,right:14,bottom:32,left:32};
-  const cW=W-PAD.left-PAD.right,cH=H-PAD.top-PAD.bottom;
-  const n=Math.max(allWeeks.length-1,1);
-
-  // Grid lines
-  ctx.strokeStyle='rgba(74,68,56,.4)';ctx.lineWidth=1;
-  for(let i=0;i<=5;i++){
-    const y=PAD.top+cH-(i/5)*cH;
-    ctx.beginPath();ctx.moveTo(PAD.left,y);ctx.lineTo(PAD.left+cW,y);ctx.stroke();
-    ctx.fillStyle='#4a4438';ctx.font=`9px IBM Plex Mono,monospace`;ctx.textAlign='right';
-    ctx.fillText((i*2).toString(),PAD.left-4,y+3);
-  }
-
-  // Average score line
-  const avgPts=allWeeks.map((ws,i)=>{
-    const wdata=weekMap[ws];
-    const avg=wdata?wdata.scores.reduce((a,b)=>a+b,0)/wdata.scores.length:null;
-    return {x:PAD.left+(i/n)*cW,y:avg!==null?PAD.top+cH-(avg/10)*cH:null,v:avg};
-  });
-
-  // Fill area
-  const validPts=avgPts.filter(p=>p.y!==null);
-  if(validPts.length>1){
-    ctx.beginPath();ctx.moveTo(validPts[0].x,PAD.top+cH);
-    validPts.forEach(p=>ctx.lineTo(p.x,p.y));
-    ctx.lineTo(validPts[validPts.length-1].x,PAD.top+cH);ctx.closePath();
-    ctx.fillStyle='rgba(212,149,42,0.10)';ctx.fill();
-    ctx.beginPath();ctx.strokeStyle='#d4952a';ctx.lineWidth=2;ctx.lineJoin='round';
-    validPts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.stroke();
-    validPts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.fillStyle='#d4952a';ctx.fill();});
-  }
-
-  // Active days bars (subtle)
-  allWeeks.forEach((ws,i)=>{
-    const days=journalWeeks[ws]||0;
-    if(!days)return;
-    const x=PAD.left+(i/n)*cW;
-    const barH=(days/7)*cH*0.25;
-    ctx.fillStyle='rgba(42,184,160,0.18)';
-    ctx.fillRect(x-4,PAD.top+cH-barH,8,barH);
-  });
-
-  // X labels — show week start
-  ctx.fillStyle='#4a4438';ctx.font=`9px IBM Plex Mono,monospace`;ctx.textAlign='center';
-  allWeeks.forEach((ws,i)=>{
-    const x=PAD.left+(i/n)*cW;
-    const d=new Date(ws+'T00:00:00');
-    ctx.fillText(`${d.getDate()}/${d.getMonth()+1}`,x,H-8);
-  });
-
-  // Stats
-  const allScores=Object.values(state.journalRatings).map(r=>r.score);
-  const allJournals=Object.keys(state.journals).length;
-  if(!allScores.length){document.getElementById('journal-chart-stats').innerHTML='';return;}
-  const avg=allScores.reduce((a,b)=>a+b,0)/allScores.length;
-  const best=Math.max(...allScores);
-
-  // This week vs last week
-  const thisWS=getWeekStart(todayKey());
-  const thisDate=new Date(thisWS+'T00:00:00');
-  const lastDate=new Date(thisDate);lastDate.setDate(lastDate.getDate()-7);
-  const lastWS=`${lastDate.getFullYear()}-${pad(lastDate.getMonth()+1)}-${pad(lastDate.getDate())}`;
-  const thisAvg=weekMap[thisWS]?weekMap[thisWS].scores.reduce((a,b)=>a+b,0)/weekMap[thisWS].scores.length:null;
-  const lastAvg=weekMap[lastWS]?weekMap[lastWS].scores.reduce((a,b)=>a+b,0)/weekMap[lastWS].scores.length:null;
-  const delta=thisAvg!==null&&lastAvg!==null?thisAvg-lastAvg:null;
-
-  document.getElementById('journal-chart-stats').innerHTML=`
-    <div class="cst-item"><div class="cst-num" style="color:var(--ac)">${avg.toFixed(1)}</div><div class="cst-lbl">Rata-rata</div></div>
-    <div class="cst-item"><div class="cst-num" style="color:var(--teal)">${best.toFixed(1)}</div><div class="cst-lbl">Terbaik</div></div>
-    <div class="cst-item"><div class="cst-num" style="color:var(--ink2)">${allJournals}</div><div class="cst-lbl">Total Hari</div></div>
-    ${delta!==null?`<div class="cst-item"><div class="cst-num" style="color:${delta>=0?'var(--teal)':'var(--red)'}">${delta>=0?'+':''}${delta.toFixed(1)}</div><div class="cst-lbl">vs Minggu Lalu</div></div>`:''}`;
+  save(); renderIelts(); toast('Skor tersimpan ✓');
 }
 
-// ── CALENDAR ──
-function renderCalendar(){
-  const now=new Date();
-  if(calYear===undefined){calYear=now.getFullYear();calMonth=now.getMonth();}
-  document.getElementById('cal-month-label').textContent=`${MONTHS_ID[calMonth]} ${calYear}`;
-  const grid=document.getElementById('cal-grid');grid.innerHTML='';
-  ['Min','Sen','Sel','Rab','Kam','Jum','Sab'].forEach(n=>{const el=document.createElement('div');el.className='cal-day-name';el.textContent=n;grid.appendChild(el);});
-  const totalDays=new Date(calYear,calMonth+1,0).getDate();
-  const startDay=new Date(calYear,calMonth,1).getDay();
-  const todayStr=todayKey();const nowDate=new Date();
-  const testDays=getTestDays(calYear,calMonth);
-  for(let i=0;i<startDay;i++){const el=document.createElement('div');el.className='cal-cell empty';grid.appendChild(el);}
-  for(let d=1;d<=totalDays;d++){
-    const key=`${calYear}-${pad(calMonth+1)}-${pad(d)}`;
-    const cellDate=new Date(calYear,calMonth,d);
-    const isFuture=cellDate>nowDate&&key!==todayStr;
-    const isToday=key===todayStr;
-    const isDone=!!state.stamps[key];
-    const isTd=testDays.includes(d);
-    const el=document.createElement('div');
-    let cls='cal-cell';
-    if(isToday)cls+=' today';
-    if(isDone&&isTd)cls+=' test-done';
-    else if(isDone)cls+=' done';
-    else if(isTd&&!isFuture)cls+=' test-day';
-    if(isFuture)cls+=' future';
-    el.className=cls;
-    el.innerHTML=`<span class="cal-cell-num">${d}</span>`;
-    grid.appendChild(el);
-  }
-  const dots=document.getElementById('chain-dots');dots.innerHTML='';
-  for(let i=29;i>=0;i--){
-    const d=new Date();d.setDate(d.getDate()-i);
-    const k=`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-    const isTd2=isTestDay(k),isToday2=k===todayKey(),isDone2=!!state.stamps[k];
-    const el=document.createElement('div');
-    let cls='chain-dot';
-    if(isDone2)cls+=isTd2?' test-done':' done';
-    else if(isTd2&&!isToday2)cls+=' test-day-dot';
-    else if(isToday2)cls+=' today-dot';
-    el.className=cls;el.title=k+(isTd2?' ★ Tes':'');
-    dots.appendChild(el);
-  }
-}
-function changeMonth(dir){calMonth+=dir;if(calMonth>11){calMonth=0;calYear++;}if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
-
-// ── PROGRESS ──
-function renderProgress(){
-  const list=document.getElementById('phase-list');list.innerHTML='';
-  PHASES.forEach((ph,idx)=>{
-    const total=ph.items.length;const done=ph.items.filter(it=>state.checks[it.id]).length;const pct=Math.round(done/total*100);
-    const row=document.createElement('div');row.className=`phase-row p${idx+1}${idx===0?' open':''}`;
-    row.innerHTML=`<div class="phase-row-header" onclick="togglePhaseRow(this.parentElement)">
-      <div class="phase-n">${ph.num}</div>
-      <div class="phase-row-info"><div class="phase-row-name">${ph.name}</div><div class="phase-row-meta">${ph.meta} · ${done}/${total} item</div></div>
-      <div class="phase-row-pct">${pct}%</div><div class="phase-chevron">▼</div></div>
-      <div class="phase-row-body">
-        <div class="ph-prog-wrap"><div class="ph-prog-fill" style="width:${pct}%"></div></div>
-        <ul class="checklist">${ph.items.map(item=>{
-          const checked=!!state.checks[item.id];const isMilestone=item.tag==='Milestone';
-          return `<li class="cl-item${checked?' checked':''}" onclick="toggleCheck('${item.id}',this.closest('.phase-row'),${idx})">
-            <div class="cl-box"><span class="cl-box-ck">✓</span></div>
-            <div class="cl-text" style="${isMilestone?'font-weight:600':''}">${item.text}</div>
-            <span class="cl-tag ${isMilestone?'milestone-tag':''}">${item.tag}</span></li>`;
-        }).join('')}</ul></div>`;
-    list.appendChild(row);
-  });
-}
-function togglePhaseRow(el){const isOpen=el.classList.contains('open');document.querySelectorAll('.phase-row').forEach(r=>r.classList.remove('open'));if(!isOpen)el.classList.add('open');}
-function toggleCheck(itemId,phaseRow,phaseIdx){
-  state.checks[itemId]=!state.checks[itemId];saveState();
-  const ph=PHASES[phaseIdx];const total=ph.items.length;const done=ph.items.filter(it=>state.checks[it.id]).length;const pct=Math.round(done/total*100);
-  phaseRow.querySelector('.phase-row-pct').textContent=pct+'%';
-  phaseRow.querySelector('.ph-prog-fill').style.width=pct+'%';
-  phaseRow.querySelector('.phase-row-meta').textContent=`${ph.meta} · ${done}/${total} item`;
-  phaseRow.querySelectorAll('.cl-item').forEach(li=>{const m=li.getAttribute('onclick').match(/'([^']+)'/);if(m&&m[1]===itemId)li.classList.toggle('checked',!!state.checks[itemId]);});
-  document.getElementById('stat-phase').textContent=`F${activePhase()}`;
+function init() {
+  checkNewDay();
+  const d = new Date();
+  document.getElementById('date-tag').textContent = fmtDate(d);
+  for(let i=0;i<5;i++) if(S.habits[i]) document.getElementById('h'+i).classList.add('done');
+  if(S.notes[todayStr()]) document.getElementById('note-input').value = S.notes[todayStr()];
+  const phase = S.totalDays < 60 ? 'Phase 1 — Input' : (S.totalDays < 120 ? 'Phase 2 — Output' : 'Phase 3 — Fluency');
+  document.getElementById('phase-tag').textContent = phase;
+  updateProgress();
 }
 
-// ── TEST ──
-function renderTestInput(){
-  const now=new Date();const inp=document.getElementById('test-month-input');
-  if(!inp.value)inp.value=`${now.getFullYear()}-${pad(now.getMonth()+1)}`;
-  const wrap=document.getElementById('score-inputs');wrap.innerHTML='';
-  SCORE_SKILLS.forEach(sk=>{
-    wrap.innerHTML+=`<div class="score-row">
-      <div class="score-label">${sk.label}</div>
-      <div class="score-iw">
-        <input type="number" class="score-in" id="score-${sk.id}" min="1" max="10" step="0.1" placeholder="—" oninput="updateScoreBadge('${sk.id}')">
-        <div class="score-badge" id="badge-${sk.id}" style="color:${sk.color}">—</div>
-      </div></div>
-      <div class="score-bar-wrap"><div class="score-bar-fill" id="bar-${sk.id}" style="width:0%;background:${sk.color}"></div></div>`;
-  });
-}
-function updateScoreBadge(id){
-  const v=parseFloat(document.getElementById('score-'+id).value);
-  const badge=document.getElementById('badge-'+id);const bar=document.getElementById('bar-'+id);
-  if(isNaN(v)){badge.textContent='—';bar.style.width='0%';}
-  else{badge.textContent=v.toFixed(1);bar.style.width=(v/10*100)+'%';}
-}
-function saveTestScore(){
-  const ym=document.getElementById('test-month-input').value;
-  if(!ym){showToast('Pilih bulan dulu!','red');return;}
-  const scores={};let allFilled=true;
-  SCORE_SKILLS.forEach(sk=>{const v=parseFloat(document.getElementById('score-'+sk.id).value);if(isNaN(v))allFilled=false;else scores[sk.id]=v;});
-  if(!allFilled){showToast('Isi semua 4 skor!','red');return;}
-  scores.overall=parseFloat((Object.values(scores).reduce((a,b)=>a+b,0)/4).toFixed(2));
-  scores.notes=document.getElementById('test-notes').value.trim();
-  scores.date=new Date().toISOString();
-  state.testScores[ym]=scores;saveState();
-  showToast('Skor tersimpan!','gold');
-  renderTestChart();renderTestHistory();
-}
-
-function setChartView(view,btn){
-  chartView=view;
-  document.querySelectorAll('#test-chart-tabs .tier-btn').forEach(t=>{t.className='tier-btn';});
-  btn.classList.add('act-std');
-  renderTestChart();
-}
-
-function renderTestChart(){
-  const canvas=document.getElementById('testChart');
-  const ctx=canvas.getContext('2d');
-  const DPR=window.devicePixelRatio||1;
-  const W=canvas.parentElement.clientWidth||600;const H=160;
-  canvas.width=W*DPR;canvas.height=H*DPR;canvas.style.width=W+'px';canvas.style.height=H+'px';
-  ctx.scale(DPR,DPR);ctx.clearRect(0,0,W,H);
-  const sorted=Object.entries(state.testScores).sort((a,b)=>a[0].localeCompare(b[0]));
-  if(!sorted.length){
-    ctx.fillStyle='#4a4438';ctx.font='13px Manrope,sans-serif';ctx.textAlign='center';
-    ctx.fillText('Belum ada data. Tes pertama akhir bulan!',W/2,H/2);
-    document.getElementById('chart-stats').innerHTML='';return;
-  }
-  const PAD={top:14,right:14,bottom:32,left:32};const cW=W-PAD.left-PAD.right,cH=H-PAD.top-PAD.bottom;
-  ctx.strokeStyle='rgba(74,68,56,.4)';ctx.lineWidth=1;
-  for(let i=0;i<=5;i++){const y=PAD.top+cH-(i/5)*cH;ctx.beginPath();ctx.moveTo(PAD.left,y);ctx.lineTo(PAD.left+cW,y);ctx.stroke();ctx.fillStyle='#4a4438';ctx.font='9px IBM Plex Mono,monospace';ctx.textAlign='right';ctx.fillText((i*2).toString(),PAD.left-4,y+3);}
-  const skillsToShow=chartView==='all'?SCORE_SKILLS:chartView==='overall'?[{id:'overall',label:'Overall',color:'#d4952a'}]:SCORE_SKILLS.filter(s=>s.id===chartView);
-  const n=Math.max(sorted.length-1,1);
-  skillsToShow.forEach(sk=>{
-    const pts=sorted.map((e,i)=>({x:PAD.left+(i/n)*cW,y:PAD.top+cH-((e[1][sk.id]||0)/10)*cH,v:e[1][sk.id]||0}));
-    ctx.beginPath();ctx.moveTo(pts[0].x,PAD.top+cH);pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(pts[pts.length-1].x,PAD.top+cH);ctx.closePath();ctx.fillStyle=sk.color+'18';ctx.fill();
-    ctx.beginPath();ctx.strokeStyle=sk.color;ctx.lineWidth=2;ctx.lineJoin='round';pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.stroke();
-    pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.fillStyle=sk.color;ctx.fill();});
-  });
-  ctx.fillStyle='#4a4438';ctx.font='9px IBM Plex Mono,monospace';ctx.textAlign='center';
-  sorted.forEach((e,i)=>{const x=PAD.left+(i/n)*cW;ctx.fillText(monthLabel(e[0]),x,H-8);});
-  const overalls=sorted.map(e=>e[1].overall);
-  const best=Math.max(...overalls);const cur=overalls[overalls.length-1];
-  const trend=overalls.length>1?cur-overalls[overalls.length-2]:0;
-  const growth=cur-overalls[0];
-  document.getElementById('chart-stats').innerHTML=`
-    <div class="cst-item"><div class="cst-num" style="color:var(--ac)">${cur.toFixed(1)}</div><div class="cst-lbl">Terakhir</div></div>
-    <div class="cst-item"><div class="cst-num" style="color:var(--teal)">${best.toFixed(1)}</div><div class="cst-lbl">Tertinggi</div></div>
-    <div class="cst-item"><div class="cst-num" style="color:${trend>=0?'var(--teal)':'var(--red)'}">${trend>=0?'+':''}${trend.toFixed(1)}</div><div class="cst-lbl">vs Bulan Lalu</div></div>
-    <div class="cst-item"><div class="cst-num" style="color:var(--ink2)">${growth>=0?'+':''}${growth.toFixed(1)}</div><div class="cst-lbl">Total Growth</div></div>`;
-}
-
-function renderTestHistory(){
-  const c=document.getElementById('test-history-list');
-  const sorted=Object.entries(state.testScores).sort((a,b)=>b[0].localeCompare(a[0]));
-  if(!sorted.length){c.innerHTML='<div style="color:var(--ink3);font-size:13px">Belum ada data.</div>';return;}
-  c.innerHTML=sorted.map(([ym,sc])=>`<div class="test-history-item">
-    <div class="thi-header">
-      <div class="thi-month">${monthLabel(ym)}</div>
-      <div class="thi-overall">${sc.overall.toFixed(1)}<span style="font-size:12px;color:var(--ink3)">/10</span></div>
-    </div>
-    <div class="thi-scores">${SCORE_SKILLS.map(sk=>`<div class="thi-score">${sk.label} <span style="color:${sk.color};font-weight:700">${sc[sk.id]?sc[sk.id].toFixed(1):'—'}</span></div>`).join('')}</div>
-    ${sc.notes?`<div class="thi-notes">${sc.notes.replace(/</g,'&lt;')}</div>`:''}
-  </div>`).join('');
-}
-
-// ── INIT ──
-loadState();
-renderToday();
-document.getElementById('journal-input').addEventListener('input',function(){
-  updateWordCount();
-  const k=todayKey();if(this.value.trim()){state.journals[k]=this.value;saveState();}
-});
-window.addEventListener('resize',()=>{
-  if(document.getElementById('panel-journal').classList.contains('active'))renderJournalChart();
-  if(document.getElementById('panel-test').classList.contains('active'))renderTestChart();
-});
+init();
 </script>
 </body>
 </html>
