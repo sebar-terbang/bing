@@ -204,6 +204,42 @@
   .milestone { cursor: pointer; }
   .milestone:hover .ms-body { color: var(--text); }
 
+
+  /* MOCK TEST */
+  .mock-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mock-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px; cursor: pointer; transition: all 0.2s; text-align: left; width: 100%;
+  }
+  .mock-card:hover { border-color: var(--border2); background: var(--bg3); }
+  .mock-card-icon { font-size: 18px; margin-bottom: 8px; }
+  .mock-card-title { font-size: 13px; font-weight: 500; color: var(--text); }
+  .mock-card-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .mock-screen { display: none; }
+  .mock-screen.active { display: block; }
+  .mock-back { background: none; border: none; color: var(--text2); font-size: 12px; padding: 0 0 16px 0; cursor: pointer; font-family: var(--sans); }
+  .mock-back:hover { color: var(--text); }
+  .mock-prompt { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 14px; font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .mock-prompt strong { color: var(--text); font-weight: 500; }
+  .mock-timer { font-family: var(--mono); font-size: 22px; color: var(--accent); text-align: center; padding: 8px 0 14px; }
+  .mock-textarea { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 13px; color: var(--text); font-family: var(--sans); resize: none; line-height: 1.6; transition: border-color 0.2s; height: 160px; }
+  .mock-textarea:focus { outline: none; border-color: rgba(45,206,137,0.4); }
+  .word-count { font-family: var(--mono); font-size: 11px; color: var(--text3); text-align: right; margin-top: 4px; margin-bottom: 10px; }
+  .ai-feedback { background: var(--bg2); border: 1px solid rgba(45,206,137,0.2); border-radius: 10px; padding: 14px 16px; margin-top: 10px; font-size: 13px; color: var(--text2); line-height: 1.8; display: none; }
+  .ai-feedback.show { display: block; }
+  .ai-feedback-label { font-family: var(--mono); font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .band-score { font-family: var(--mono); font-size: 26px; font-weight: 500; color: var(--accent); }
+  .speaking-parts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .speaking-part { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .speaking-part-label { font-family: var(--mono); font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .speaking-part-q { font-size: 13px; color: var(--text); margin-bottom: 8px; line-height: 1.6; }
+  .rec-btn { background: transparent; border: 1px solid var(--border2); border-radius: 8px; padding: 7px 14px; font-size: 12px; color: var(--text2); cursor: pointer; font-family: var(--sans); transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+  .rec-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .rec-btn.recording { border-color: #ff6b6b; color: #ff6b6b; animation: pulse 1.2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+  .rec-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .transcript-box { font-size: 12px; color: var(--text3); margin-top: 8px; font-style: italic; min-height: 20px; }
+
   /* TOAST */
   .toast {
     position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
@@ -255,6 +291,7 @@
     <button class="tab active" onclick="switchTab('today')">Hari ini</button>
     <button class="tab" onclick="switchTab('week')">Mingguan</button>
     <button class="tab" onclick="switchTab('ielts')">IELTS</button>
+    <button class="tab" onclick="switchTab('mock')">Mock Test</button>
   </div>
 
   <!-- TAB: TODAY -->
@@ -361,6 +398,109 @@
 
 </div>
 
+  <!-- TAB: MOCK TEST -->
+  <div id="tab-mock" style="display:none">
+
+    <!-- MENU -->
+    <div id="mock-menu-screen" class="mock-screen active">
+      <div class="section">
+        <div class="section-label">Pilih sesi</div>
+        <div class="mock-menu">
+          <button class="mock-card" onclick="startMock('writing1')">
+            <div class="mock-card-icon">&#9997;</div>
+            <div class="mock-card-title">Writing Task 1</div>
+            <div class="mock-card-sub">Describe a chart · 20 min</div>
+          </button>
+          <button class="mock-card" onclick="startMock('writing2')">
+            <div class="mock-card-icon">&#128203;</div>
+            <div class="mock-card-title">Writing Task 2</div>
+            <div class="mock-card-sub">Essay · 40 min</div>
+          </button>
+          <button class="mock-card" onclick="startMock('speaking')">
+            <div class="mock-card-icon">&#127908;</div>
+            <div class="mock-card-title">Speaking</div>
+            <div class="mock-card-sub">3 parts · rekam suara</div>
+          </button>
+          <button class="mock-card" onclick="startMock('vocab')">
+            <div class="mock-card-icon">&#128218;</div>
+            <div class="mock-card-title">Vocab Check</div>
+            <div class="mock-card-sub">Gunakan kata baru</div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- WRITING TASK 1 -->
+    <div id="mock-w1-screen" class="mock-screen">
+      <button class="mock-back" onclick="backToMenu()">&#8592; kembali</button>
+      <div class="section-label">Writing Task 1 · 20 menit</div>
+      <div class="mock-prompt" id="w1-prompt">Loading prompt...</div>
+      <div class="mock-timer" id="w1-timer">20:00</div>
+      <textarea class="mock-textarea" id="w1-text" placeholder="Write at least 150 words describing the data..." oninput="countWords('w1-text','w1-wc')"></textarea>
+      <div class="word-count" id="w1-wc">0 words</div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="getFeedback('writing1')">Get AI Feedback</button>
+        <button class="btn-ghost" onclick="newPrompt('writing1')">New Prompt</button>
+      </div>
+      <div class="ai-feedback" id="w1-feedback">
+        <div class="ai-feedback-label">AI Examiner Feedback</div>
+        <div id="w1-feedback-text"></div>
+      </div>
+    </div>
+
+    <!-- WRITING TASK 2 -->
+    <div id="mock-w2-screen" class="mock-screen">
+      <button class="mock-back" onclick="backToMenu()">&#8592; kembali</button>
+      <div class="section-label">Writing Task 2 · 40 menit</div>
+      <div class="mock-prompt" id="w2-prompt">Loading prompt...</div>
+      <div class="mock-timer" id="w2-timer">40:00</div>
+      <textarea class="mock-textarea" id="w2-text" placeholder="Write at least 250 words..." oninput="countWords('w2-text','w2-wc')"></textarea>
+      <div class="word-count" id="w2-wc">0 words</div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="getFeedback('writing2')">Get AI Feedback</button>
+        <button class="btn-ghost" onclick="newPrompt('writing2')">New Prompt</button>
+      </div>
+      <div class="ai-feedback" id="w2-feedback">
+        <div class="ai-feedback-label">AI Examiner Feedback</div>
+        <div id="w2-feedback-text"></div>
+      </div>
+    </div>
+
+    <!-- SPEAKING -->
+    <div id="mock-sp-screen" class="mock-screen">
+      <button class="mock-back" onclick="backToMenu()">&#8592; kembali</button>
+      <div class="section-label">Speaking · 3 parts</div>
+      <div class="speaking-parts" id="speaking-parts"></div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="getFeedback('speaking')">Get AI Feedback</button>
+        <button class="btn-ghost" onclick="newPrompt('speaking')">New Questions</button>
+      </div>
+      <div class="ai-feedback" id="sp-feedback">
+        <div class="ai-feedback-label">AI Examiner Feedback</div>
+        <div id="sp-feedback-text"></div>
+      </div>
+    </div>
+
+    <!-- VOCAB CHECK -->
+    <div id="mock-vc-screen" class="mock-screen">
+      <button class="mock-back" onclick="backToMenu()">&#8592; kembali</button>
+      <div class="section-label">Vocab in Context</div>
+      <div class="mock-prompt" id="vc-prompt">Loading...</div>
+      <textarea class="mock-textarea" id="vc-text" placeholder="Write 3-5 sentences using these words naturally..." oninput="countWords('vc-text','vc-wc')"></textarea>
+      <div class="word-count" id="vc-wc">0 words</div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="getFeedback('vocab')">Get AI Feedback</button>
+        <button class="btn-ghost" onclick="newPrompt('vocab')">New Words</button>
+      </div>
+      <div class="ai-feedback" id="vc-feedback">
+        <div class="ai-feedback-label">AI Feedback</div>
+        <div id="vc-feedback-text"></div>
+      </div>
+    </div>
+
+  </div>
+
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
@@ -457,11 +597,11 @@ function resetDay() {
 }
 
 function switchTab(t) {
-  ['today','week','ielts'].forEach(id => {
+  ['today','week','ielts','mock'].forEach(id => {
     document.getElementById('tab-'+id).style.display = id===t ? 'block' : 'none';
   });
   document.querySelectorAll('.tab').forEach((el,i) => {
-    el.classList.toggle('active', ['today','week','ielts'][i]===t);
+    el.classList.toggle('active', ['today','week','ielts','mock'][i]===t);
   });
   if (t==='week') renderWeek();
   if (t==='ielts') renderIelts();
@@ -537,6 +677,244 @@ function saveScores() {
   });
   save(); renderIelts(); toast('Skor tersimpan ✓');
 }
+
+// ===== MOCK TEST =====
+const W1_PROMPTS = [
+  "The bar chart below shows the percentage of students who achieved grades A, B, and C in three subjects (Math, Science, English) in 2023. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "The line graph below shows the average monthly temperatures in Jakarta and Zurich over one year. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "The pie charts below compare the proportion of time Indonesian university students spent on different activities in 2010 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+  "The table below shows the number of international students enrolled at four Swiss universities (ETH Zurich, EPFL, University of Zurich, University of Geneva) in 2015 and 2022. Summarise the information by selecting and reporting the main features."
+];
+const W2_PROMPTS = [
+  "Some people believe that universities should focus on providing academic knowledge, while others think universities should prepare students for the job market. Discuss both views and give your own opinion.",
+  "In many countries, young people are leaving rural areas to live and work in cities. What are the reasons for this? What problems does it cause?",
+  "Some people think that the best way to improve public health is to increase the number of sports facilities. Others believe that this would have little effect on public health. Discuss both views and give your own opinion.",
+  "The increasing use of technology in education means that teachers are becoming less important. To what extent do you agree or disagree?",
+  "Many people argue that international travel has become too easy and that more restrictions should be introduced. Do you agree or disagree?"
+];
+const SP_PROMPTS = [
+  {
+    p1: ["Tell me about your hometown.", "Do you enjoy studying English? Why?", "What do you usually do in your free time?"],
+    p2: "Describe a time when you had to learn something new quickly. You should say: what you had to learn, why you needed to learn it quickly, how you went about learning it, and explain how you felt about this experience.",
+    p3: ["Why do you think lifelong learning is important?", "How has technology changed the way people learn?", "Do you think formal education prepares people well for real life?"]
+  },
+  {
+    p1: ["What kind of music do you like?", "How often do you use public transport?", "Do you prefer cooking at home or eating out?"],
+    p2: "Describe an interesting place you have visited. You should say: where it is, when you went there, what you did there, and explain why you found it interesting.",
+    p3: ["How has tourism changed in your country?", "What are the advantages and disadvantages of international tourism?", "Should governments spend money on promoting tourism?"]
+  }
+];
+const VOCAB_PROMPTS = [
+  { words: ["consequently", "nevertheless", "substantial"], context: "Write about the challenges of learning a new language." },
+  { words: ["innovative", "facilitate", "rigorous"], context: "Write about studying at a top university." },
+  { words: ["prevalent", "mitigate", "criterion"], context: "Write about academic success and preparation." },
+  { words: ["ambiguous", "persevere", "acknowledge"], context: "Write about overcoming difficulties in life." }
+];
+
+let timers = {};
+let currentSpPrompt = null;
+let mediaRecorders = {};
+let transcripts = {};
+
+function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function startMock(type) {
+  document.getElementById('mock-menu-screen').classList.remove('active');
+  if (type === 'writing1') {
+    document.getElementById('mock-w1-screen').classList.add('active');
+    newPrompt('writing1');
+    startTimer('w1-timer', 20*60);
+  } else if (type === 'writing2') {
+    document.getElementById('mock-w2-screen').classList.add('active');
+    newPrompt('writing2');
+    startTimer('w2-timer', 40*60);
+  } else if (type === 'speaking') {
+    document.getElementById('mock-sp-screen').classList.add('active');
+    newPrompt('speaking');
+  } else if (type === 'vocab') {
+    document.getElementById('mock-vc-screen').classList.add('active');
+    newPrompt('vocab');
+  }
+}
+
+function backToMenu() {
+  document.querySelectorAll('.mock-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('mock-menu-screen').classList.add('active');
+  Object.values(timers).forEach(t => clearInterval(t));
+  timers = {};
+  Object.values(mediaRecorders).forEach(r => { try { r.stop(); } catch(e){} });
+  mediaRecorders = {};
+}
+
+function newPrompt(type) {
+  if (type === 'writing1') {
+    document.getElementById('w1-prompt').innerHTML = getRandom(W1_PROMPTS);
+    document.getElementById('w1-feedback').classList.remove('show');
+    document.getElementById('w1-text').value = '';
+    document.getElementById('w1-wc').textContent = '0 words';
+  } else if (type === 'writing2') {
+    document.getElementById('w2-prompt').innerHTML = getRandom(W2_PROMPTS);
+    document.getElementById('w2-feedback').classList.remove('show');
+    document.getElementById('w2-text').value = '';
+    document.getElementById('w2-wc').textContent = '0 words';
+  } else if (type === 'speaking') {
+    currentSpPrompt = getRandom(SP_PROMPTS);
+    transcripts = {};
+    const container = document.getElementById('speaking-parts');
+    container.innerHTML = `
+      <div class="speaking-part">
+        <div class="speaking-part-label">Part 1 · Introduction</div>
+        ${currentSpPrompt.p1.map((q,i) => `<div class="speaking-part-q">${i+1}. ${q}</div>`).join('')}
+        <button class="rec-btn" id="rec-p1" onclick="toggleRecord('p1')"><div class="rec-dot"></div><span id="rec-p1-label">Record answer</span></button>
+        <div class="transcript-box" id="tr-p1"></div>
+      </div>
+      <div class="speaking-part">
+        <div class="speaking-part-label">Part 2 · Long turn (2 min)</div>
+        <div class="speaking-part-q">${currentSpPrompt.p2}</div>
+        <button class="rec-btn" id="rec-p2" onclick="toggleRecord('p2')"><div class="rec-dot"></div><span id="rec-p2-label">Record answer</span></button>
+        <div class="transcript-box" id="tr-p2"></div>
+      </div>
+      <div class="speaking-part">
+        <div class="speaking-part-label">Part 3 · Discussion</div>
+        ${currentSpPrompt.p3.map((q,i) => `<div class="speaking-part-q">${i+1}. ${q}</div>`).join('')}
+        <button class="rec-btn" id="rec-p3" onclick="toggleRecord('p3')"><div class="rec-dot"></div><span id="rec-p3-label">Record answer</span></button>
+        <div class="transcript-box" id="tr-p3"></div>
+      </div>`;
+    document.getElementById('sp-feedback').classList.remove('show');
+  } else if (type === 'vocab') {
+    const p = getRandom(VOCAB_PROMPTS);
+    document.getElementById('vc-prompt').innerHTML = `<strong>Use these words:</strong> <span style="color:var(--accent)">${p.words.join(', ')}</span><br><br><strong>Context:</strong> ${p.context}`;
+    document.getElementById('vc-feedback').classList.remove('show');
+    document.getElementById('vc-text').value = '';
+    document.getElementById('vc-wc').textContent = '0 words';
+  }
+}
+
+function startTimer(elId, seconds) {
+  if (timers[elId]) clearInterval(timers[elId]);
+  let rem = seconds;
+  const el = document.getElementById(elId);
+  timers[elId] = setInterval(() => {
+    rem--;
+    const m = Math.floor(rem/60).toString().padStart(2,'0');
+    const s = (rem%60).toString().padStart(2,'0');
+    el.textContent = m+':'+s;
+    if (rem <= 0) { clearInterval(timers[elId]); el.textContent = 'Time up!'; el.style.color = '#ff6b6b'; }
+    else if (rem <= 300) el.style.color = '#f5a623';
+    else el.style.color = 'var(--accent)';
+  }, 1000);
+}
+
+function countWords(textareaId, wcId) {
+  const text = document.getElementById(textareaId).value.trim();
+  const count = text ? text.split(/\s+/).length : 0;
+  document.getElementById(wcId).textContent = count + ' words';
+}
+
+function toggleRecord(part) {
+  const btn = document.getElementById('rec-'+part);
+  const label = document.getElementById('rec-'+part+'-label');
+  const trBox = document.getElementById('tr-'+part);
+
+  if (mediaRecorders[part] && mediaRecorders[part].state === 'recording') {
+    mediaRecorders[part].stop();
+    btn.classList.remove('recording');
+    label.textContent = 'Record answer';
+    return;
+  }
+
+  if (!navigator.mediaDevices) {
+    trBox.textContent = 'Microphone not supported in this browser.';
+    return;
+  }
+
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+    const recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (recognition) {
+      const rec = new recognition();
+      rec.lang = 'en-US';
+      rec.continuous = true;
+      rec.interimResults = true;
+      rec.onresult = (e) => {
+        let interim = '', final = '';
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+          if (e.results[i].isFinal) final += e.results[i][0].transcript + ' ';
+          else interim += e.results[i][0].transcript;
+        }
+        if (final) transcripts[part] = (transcripts[part] || '') + final;
+        trBox.textContent = (transcripts[part] || '') + interim;
+      };
+      rec.start();
+      mediaRecorders[part] = { state: 'recording', stop: () => { rec.stop(); stream.getTracks().forEach(t => t.stop()); } };
+    } else {
+      const mr = new MediaRecorder(stream);
+      mr.start();
+      mediaRecorders[part] = mr;
+      trBox.textContent = 'Recording... (no live transcript in this browser)';
+      mr.onstop = () => { trBox.textContent = transcripts[part] || '[Recording saved — no transcript available]'; stream.getTracks().forEach(t => t.stop()); };
+    }
+    btn.classList.add('recording');
+    label.textContent = 'Stop recording';
+  }).catch(() => {
+    trBox.textContent = 'Could not access microphone.';
+  });
+}
+
+async function getFeedback(type) {
+  let prompt = '', userContent = '', feedbackEl, textEl;
+
+  if (type === 'writing1') {
+    const task = document.getElementById('w1-prompt').textContent;
+    const essay = document.getElementById('w1-text').value.trim();
+    if (!essay) { toast('Tulis dulu jawabannya!'); return; }
+    feedbackEl = document.getElementById('w1-feedback');
+    textEl = document.getElementById('w1-feedback-text');
+    prompt = `You are a strict but fair IELTS examiner. The student wrote a Task 1 response for this prompt: "${task}". Their response: "${essay}". Evaluate it using official IELTS Task 1 criteria: Task Achievement, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy. Give an estimated band score (e.g. Band 5.5) and 3-4 specific, actionable improvement tips. Format your response in clear sections. Be honest and specific.`;
+  } else if (type === 'writing2') {
+    const task = document.getElementById('w2-prompt').textContent;
+    const essay = document.getElementById('w2-text').value.trim();
+    if (!essay) { toast('Tulis dulu jawabannya!'); return; }
+    feedbackEl = document.getElementById('w2-feedback');
+    textEl = document.getElementById('w2-feedback-text');
+    prompt = `You are a strict but fair IELTS examiner. The student wrote a Task 2 essay for this prompt: "${task}". Their essay: "${essay}". Evaluate it using official IELTS Task 2 criteria: Task Response, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy. Give an estimated band score and 3-4 specific, actionable improvement tips. Be honest and specific.`;
+  } else if (type === 'speaking') {
+    if (!currentSpPrompt) { toast('Start a speaking session first!'); return; }
+    const allTranscripts = Object.entries(transcripts).map(([k,v]) => `${k.toUpperCase()}: ${v}`).join('\n');
+    if (!allTranscripts) { toast('Record your answers first!'); return; }
+    feedbackEl = document.getElementById('sp-feedback');
+    textEl = document.getElementById('sp-feedback-text');
+    prompt = `You are an IELTS speaking examiner. The candidate answered IELTS Speaking questions. Their transcribed answers: "${allTranscripts}". Evaluate using IELTS Speaking criteria: Fluency & Coherence, Lexical Resource, Grammatical Range & Accuracy, Pronunciation. Give an estimated band score and 3-4 specific improvement tips. Note any filler words, grammar errors, or vocabulary issues you noticed.`;
+  } else if (type === 'vocab') {
+    const text = document.getElementById('vc-text').value.trim();
+    if (!text) { toast('Tulis dulu jawabannya!'); return; }
+    const promptEl = document.getElementById('vc-prompt').textContent;
+    feedbackEl = document.getElementById('vc-feedback');
+    textEl = document.getElementById('vc-feedback-text');
+    prompt = `You are an English language teacher. The student was asked to use specific vocabulary words in context (${promptEl}). Their response: "${text}". Check if they used the target words correctly and naturally. Point out any grammar errors. Give specific feedback on vocabulary usage and suggest better alternatives if needed. Keep it encouraging but honest.`;
+  }
+
+  feedbackEl.classList.add('show');
+  textEl.innerHTML = '<em style="color:var(--text3)">AI examiner is reviewing your work...</em>';
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || 'Could not get feedback. Try again.';
+    textEl.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    toast('Feedback ready ✓');
+  } catch(e) {
+    textEl.innerHTML = '<em style="color:#ff6b6b">Error getting feedback. Check your connection.</em>';
+  }
+}
+
 
 function init() {
   checkNewDay();
