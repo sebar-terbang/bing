@@ -615,17 +615,18 @@ async function loadFromCloud() {
     });
     if (!res.ok) throw new Error('fetch failed');
     const rows = await res.json();
+    setSyncStatus('');
     if (rows && rows.length > 0 && rows[0].data) {
-      const cloud = rows[0].data;
-      // merge: cloud wins, but keep DEF structure
-      return { ...DEF, ...cloud };
+      return { ...DEF, ...rows[0].data };
     }
     return { ...DEF };
   } catch (e) {
     console.warn('Cloud load failed, using localStorage:', e);
     setSyncStatus('offline');
-    const d = localStorage.getItem(KEY);
-    return d ? JSON.parse(d) : { ...DEF };
+    try {
+      const d = localStorage.getItem(KEY);
+      return d ? JSON.parse(d) : { ...DEF };
+    } catch { return { ...DEF }; }
   }
 }
 
