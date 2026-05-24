@@ -77,6 +77,86 @@ main{max-width:1160px;margin:0 auto;padding:40px 28px 100px;position:relative;z-
 .card-pad{padding:26px;}
 .card-label{font-size:10.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-light);margin-bottom:18px;}
 
+/* TODAY CARD */
+.today-card{position:relative;overflow:hidden;background:var(--ink);border-color:transparent;margin-bottom:20px;animation:riseUp .5s cubic-bezier(.22,1,.36,1) both;}
+.today-card::before{content:'';position:absolute;top:-80px;right:-80px;width:280px;height:280px;background:radial-gradient(circle,rgba(42,92,64,.45) 0%,transparent 65%);pointer-events:none;}
+.today-card-inner{padding:28px 30px;position:relative;z-index:1;}
+.today-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;}
+.today-greeting{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px;}
+.today-headline{font-family:'Playfair Display',serif;font-size:clamp(20px,3vw,28px);color:white;line-height:1.2;font-weight:600;}
+.today-headline em{font-style:italic;color:#7ec89a;}
+.today-streak-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+.today-streak{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 16px;}
+.streak-fire{font-size:20px;}
+.streak-num{font-family:'Playfair Display',serif;font-size:28px;color:white;line-height:1;}
+.streak-lbl{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.8px;margin-top:1px;}
+.streak-days-row{display:flex;gap:4px;}
+.streak-day-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.15);}
+.streak-day-dot.done{background:#7ec89a;}
+.streak-day-dot.today-dot-s{background:white;box-shadow:0 0 6px rgba(255,255,255,.6);}
+
+/* action buttons */
+.today-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.btn-start-full{flex:1;min-width:180px;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--green);color:white;border:none;border-radius:var(--r-sm);padding:15px 22px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.2px;}
+.btn-start-full:hover{background:#1e4530;box-shadow:0 6px 20px rgba(42,92,64,.5);transform:translateY(-2px);}
+.btn-start-full:active{transform:translateY(0);}
+.btn-start-full .btn-icon{font-size:20px;}
+.btn-start-mini{display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:var(--r-sm);padding:15px 20px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:rgba(255,255,255,.7);cursor:pointer;transition:all .2s;}
+.btn-start-mini:hover{background:rgba(255,255,255,.12);color:white;border-color:rgba(255,255,255,.22);}
+.today-done-state{display:none;align-items:center;gap:14px;background:rgba(126,200,154,.1);border:1px solid rgba(126,200,154,.25);border-radius:var(--r-sm);padding:16px 20px;}
+.today-done-state.show{display:flex;}
+.done-icon{font-size:28px;}
+.done-text{font-size:15px;font-weight:600;color:#7ec89a;}
+.done-sub{font-size:12.5px;color:rgba(255,255,255,.4);margin-top:2px;}
+.done-undo{background:none;border:none;font-size:12px;color:rgba(255,255,255,.3);cursor:pointer;margin-left:auto;font-family:'Outfit',sans-serif;text-decoration:underline;text-underline-offset:3px;}
+.done-undo:hover{color:rgba(255,255,255,.6);}
+
+/* TIMER OVERLAY */
+.timer-overlay{display:none;position:fixed;inset:0;background:rgba(18,17,14,.92);backdrop-filter:blur(12px);z-index:600;align-items:center;justify-content:center;flex-direction:column;gap:0;}
+.timer-overlay.open{display:flex;}
+.timer-box{background:var(--ink);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:40px 48px;text-align:center;width:100%;max-width:420px;box-shadow:var(--sh-lg);animation:slideModal .3s cubic-bezier(.22,1,.36,1) both;}
+.timer-skill-badge{display:inline-flex;align-items:center;gap:8px;border-radius:20px;padding:6px 16px;font-size:13px;font-weight:700;margin-bottom:20px;}
+.timer-label{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px;}
+.timer-display{font-family:'Playfair Display',serif;font-size:76px;font-weight:400;color:white;letter-spacing:-3px;line-height:1;margin-bottom:6px;transition:color .3s;}
+.timer-display.ending{color:#f0c060;}
+.timer-sub{font-size:13px;color:rgba(255,255,255,.35);margin-bottom:32px;}
+.timer-ring-wrap{position:relative;width:160px;height:160px;margin:0 auto 28px;}
+.timer-ring-svg{transform:rotate(-90deg);}
+.timer-ring-bg{fill:none;stroke:rgba(255,255,255,.08);stroke-width:6;}
+.timer-ring-fill{fill:none;stroke:var(--green-mid);stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .5s linear;}
+.timer-ring-fill.ending{stroke:#f0c060;}
+.timer-inner-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.timer-btn-row{display:flex;gap:10px;justify-content:center;}
+.timer-btn{border:none;border-radius:var(--r-sm);padding:12px 28px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;}
+.timer-btn-pause{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.12);}
+.timer-btn-pause:hover{background:rgba(255,255,255,.14);color:white;}
+.timer-btn-done{background:var(--green);color:white;}
+.timer-btn-done:hover{background:#1e4530;}
+.timer-btn-skip{background:none;border:none;color:rgba(255,255,255,.25);font-family:'Outfit',sans-serif;font-size:12px;cursor:pointer;margin-top:12px;text-decoration:underline;text-underline-offset:3px;}
+.timer-btn-skip:hover{color:rgba(255,255,255,.5);}
+
+/* post-session quick log */
+.quick-log-box{background:var(--surface);border-radius:20px;padding:28px;width:100%;max-width:420px;box-shadow:var(--sh-lg);animation:slideModal .3s .1s cubic-bezier(.22,1,.36,1) both;margin-top:0;}
+.ql-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--ink);margin-bottom:4px;}
+.ql-sub{font-size:13px;color:var(--text-muted);font-weight:300;margin-bottom:20px;}
+.ql-score-input{width:100%;padding:11px 15px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:'Outfit',sans-serif;font-size:15px;color:var(--ink);background:var(--bg);outline:none;margin-bottom:10px;transition:border-color .15s;}
+.ql-score-input:focus{border-color:var(--green);background:var(--surface);}
+.ql-notes-input{width:100%;padding:11px 15px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:'Outfit',sans-serif;font-size:14px;color:var(--ink);background:var(--bg);outline:none;resize:vertical;min-height:70px;transition:border-color .15s;}
+.ql-notes-input:focus{border-color:var(--green);background:var(--surface);}
+.ql-actions{display:flex;gap:10px;margin-top:16px;}
+.ql-save{flex:1;background:var(--green);color:white;border:none;border-radius:var(--r-sm);padding:12px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s;}
+.ql-save:hover{background:#1e4530;}
+.ql-skip{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:12px 18px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--text-muted);cursor:pointer;transition:all .15s;}
+.ql-skip:hover{border-color:var(--border2);color:var(--text);}
+
+/* SYNC STATUS */
+.sync-status{font-size:12px;font-weight:500;padding:4px 10px;border-radius:20px;transition:all .3s;}
+.sync-status.syncing{color:var(--text-muted);}
+.sync-status.saved{color:var(--green);background:var(--green-light);}
+.sync-status.error{color:var(--coral);background:var(--coral-light);}
+.sync-status.loading{color:var(--text-muted);}
+.sync-status.offline{color:var(--gold);background:var(--gold-light);}
+
 /* SCORE CARD */
 .score-card{position:relative;background:var(--ink);border-color:transparent;color:white;}
 .score-card::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(42,92,64,.5) 0%,transparent 70%);pointer-events:none;}
@@ -134,11 +214,14 @@ main{max-width:1160px;margin:0 auto;padding:40px 28px 100px;position:relative;z-
 @media(max-width:440px){.sched-horiz{grid-template-columns:repeat(2,1fr);}}
 
 /* LOG */
-.log-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.log-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:10px;flex-wrap:wrap;}
 .log-header-row .card-label{margin:0;}
+.log-header-actions{display:flex;align-items:center;gap:8px;}
 .add-btn{display:inline-flex;align-items:center;gap:7px;background:var(--green);color:white;border:none;border-radius:var(--r-sm);padding:9px 18px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.2px;}
 .add-btn:hover{background:#1e4530;transform:translateY(-1px);box-shadow:0 4px 14px rgba(42,92,64,.35);}
 .add-btn:active{transform:translateY(0);}
+.dl-btn{display:inline-flex;align-items:center;gap:6px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:9px 14px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .2s;}
+.dl-btn:hover{border-color:var(--green);color:var(--green);background:var(--green-pale);}
 .log-empty{text-align:center;padding:48px 24px;color:var(--text-muted);}
 .log-empty-icon{font-size:40px;margin-bottom:12px;opacity:.4;}
 .log-empty-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--text);margin-bottom:6px;}
@@ -146,15 +229,27 @@ main{max-width:1160px;margin:0 auto;padding:40px 28px 100px;position:relative;z-
 table.log-table{width:100%;border-collapse:collapse;}
 .log-table th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-light);padding:0 14px 12px;}
 .log-table td{padding:13px 14px;font-size:13.5px;border-top:1px solid var(--border);vertical-align:middle;transition:background .1s;}
-.log-table tr:hover td{background:var(--surface2);}
+.log-table tr.log-row{cursor:pointer;}
+.log-table tr.log-row:hover td{background:var(--surface2);}
 .log-table tr:first-child td{border-top:none;}
 .log-date{color:var(--text-muted);font-size:12.5px;}
 .log-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 11px;border-radius:20px;}
 .log-score{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;}
-.log-notes{color:var(--text-muted);font-size:12.5px;font-weight:300;max-width:200px;}
+.log-notes-preview{color:var(--text-muted);font-size:12.5px;font-weight:300;max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.log-chevron{color:var(--text-light);font-size:13px;transition:transform .2s;flex-shrink:0;}
+.log-chevron.open{transform:rotate(180deg);}
 .del-btn{background:none;border:none;width:28px;height:28px;border-radius:6px;color:var(--text-light);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .del-btn:hover{background:var(--coral-light);color:var(--coral);}
-
+/* expanded notes row */
+tr.log-notes-row td{padding:0 14px 14px 14px;border-top:none;}
+tr.log-notes-row{display:none;}
+tr.log-notes-row.open{display:table-row;}
+.notes-bubble{background:var(--surface2);border-left:3px solid var(--border2);border-radius:0 var(--r-xs) var(--r-xs) 0;padding:12px 16px;font-size:13.5px;color:var(--text-muted);font-weight:300;line-height:1.6;font-style:italic;}
+.notes-empty{color:var(--text-light);font-size:13px;font-style:italic;}
+/* older toggle */
+.older-toggle{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;padding-top:14px;border-top:1px dashed var(--border);cursor:pointer;font-size:13px;font-weight:600;color:var(--text-muted);transition:color .15s;user-select:none;}
+.older-toggle:hover{color:var(--green);}
+.older-count{background:var(--surface2);border-radius:20px;padding:2px 9px;font-size:11.5px;font-weight:700;}
 /* MODAL */
 .overlay{display:none;position:fixed;inset:0;background:rgba(18,17,14,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:500;align-items:center;justify-content:center;padding:20px;}
 .overlay.open{display:flex;animation:fadeOverlay .2s ease both;}
@@ -196,29 +291,66 @@ table.log-table{width:100%;border-collapse:collapse;}
       <span class="logo-text">Study IELTS</span>
       <div class="logo-dot"></div>
     </div>
-    <div class="cmu-pill">
-      <div class="cmu-icon">C</div>
-      <span>Carnegie Mellon</span>
+    <div class="header-right" style="display:flex;align-items:center;gap:10px;">
+      <span class="sync-status" id="syncStatus"></span>
+      <div class="cmu-pill">
+        <div class="cmu-icon">C</div>
+        <span>Carnegie Mellon</span>
+      </div>
     </div>
   </div>
 </header>
 
 <main>
 
-  <!-- INTRO -->
-  <div class="intro">
-    <div>
-      <div class="intro-eyebrow">Progress Dashboard</div>
-      <h1>Your path to<br><em>Band 7.5</em></h1>
-      <p class="intro-sub">Track objectively. Practice consistently. Know exactly where you stand.</p>
-    </div>
-    <div class="today-badge">
-      <div class="today-label">Today</div>
-      <div class="today-day" id="todayName">—</div>
-      <div class="today-focus" id="todayFocus">—</div>
+  <!-- TODAY ACTION CARD -->
+  <div class="card today-card">
+    <div class="today-card-inner">
+      <div class="today-card-top">
+        <div>
+          <div class="today-greeting">Hari ini</div>
+          <div class="today-headline" id="todayHeadline">Cukup <em>5 menit aja.</em></div>
+          <div style="margin-top:8px;font-size:13.5px;color:rgba(255,255,255,.45);font-weight:300" id="todaySkillHint">Skill fokus hari ini: —</div>
+        </div>
+        <div class="today-streak-wrap">
+          <div class="today-streak">
+            <span class="streak-fire">🔥</span>
+            <div>
+              <div class="streak-num" id="streakNum">0</div>
+              <div class="streak-lbl">hari streak</div>
+            </div>
+          </div>
+          <div class="streak-days-row" id="streakDots"></div>
+        </div>
+      </div>
+
+      <!-- actions: shown when belum sesi hari ini -->
+      <div class="today-actions" id="todayActions">
+        <button class="btn-start-full" onclick="startSession('full')">
+          <span class="btn-icon" id="todaySkillIcon">📖</span>
+          <div style="text-align:left">
+            <div style="font-size:12px;font-weight:500;opacity:.7;margin-bottom:1px">Sesi penuh · 45 mnt</div>
+            <div>Mulai Sekarang</div>
+          </div>
+        </button>
+        <button class="btn-start-mini" onclick="startSession('mini')">
+          ⚡ 5 Menit Aja
+        </button>
+      </div>
+
+      <!-- done state: shown kalau udah log hari ini -->
+      <div class="today-done-state" id="todayDone">
+        <span class="done-icon">✅</span>
+        <div>
+          <div class="done-text">Lo udah latihan hari ini!</div>
+          <div class="done-sub" id="doneSub">Streak lo jalan terus.</div>
+        </div>
+        <button class="done-undo" onclick="undoToday()">batal</button>
+      </div>
     </div>
   </div>
 
+  <!-- old intro stripped, today badge moved into today card -->
   <!-- ROW 1 -->
   <div class="row row-2 a1">
     <div class="card score-card">
@@ -324,10 +456,16 @@ table.log-table{width:100%;border-collapse:collapse;}
       <div class="card-pad">
         <div class="log-header-row">
           <div class="card-label">Practice Log</div>
-          <button class="add-btn" onclick="openModal('logModal')">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Add Session
-          </button>
+          <div class="log-header-actions">
+            <button class="dl-btn" onclick="downloadData()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export
+            </button>
+            <button class="add-btn" onclick="openModal('logModal')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Session
+            </button>
+          </div>
         </div>
         <div id="logContainer">
           <div class="log-empty">
@@ -341,6 +479,43 @@ table.log-table{width:100%;border-collapse:collapse;}
   </div>
 
 </main>
+
+<!-- TIMER OVERLAY -->
+<div class="timer-overlay" id="timerOverlay">
+  <div class="timer-box">
+    <div class="timer-skill-badge" id="timerBadge">📖 Reading</div>
+    <div class="timer-ring-wrap">
+      <svg class="timer-ring-svg" width="160" height="160" viewBox="0 0 160 160">
+        <circle class="timer-ring-bg" cx="80" cy="80" r="68"/>
+        <circle class="timer-ring-fill" id="timerRing" cx="80" cy="80" r="68" stroke-dasharray="427" stroke-dashoffset="0"/>
+      </svg>
+      <div class="timer-inner-text">
+        <div class="timer-label" id="timerModeLabel">SESI PENUH</div>
+        <div class="timer-display" id="timerDisplay">45:00</div>
+        <div class="timer-sub" id="timerSub">tetap semangat 💪</div>
+      </div>
+    </div>
+    <div class="timer-btn-row">
+      <button class="timer-btn timer-btn-pause" id="timerPauseBtn" onclick="togglePause()">⏸ Pause</button>
+      <button class="timer-btn timer-btn-done" onclick="finishSession()">Selesai ✓</button>
+    </div>
+    <div style="text-align:center"><button class="timer-btn-skip" onclick="cancelSession()">batalkan sesi</button></div>
+  </div>
+</div>
+
+<!-- QUICK LOG OVERLAY (after timer) -->
+<div class="timer-overlay" id="quickLogOverlay">
+  <div class="quick-log-box">
+    <div class="ql-title">Mantap! Sesi selesai 🎉</div>
+    <div class="ql-sub" id="qlSub">Berapa skor atau hasilnya? (opsional)</div>
+    <input class="ql-score-input" id="ql-score" placeholder="e.g. 6.5 atau 28/40 benar">
+    <textarea class="ql-notes-input" id="ql-notes" placeholder="Catatan singkat: apa yang lo pelajari? di mana masih stuck?"></textarea>
+    <div class="ql-actions">
+      <button class="ql-skip" onclick="saveQuickLog(true)">Skip</button>
+      <button class="ql-save" onclick="saveQuickLog(false)">Simpan & Selesai</button>
+    </div>
+  </div>
+</div>
 
 <!-- MODALS -->
 <div class="overlay" id="scoreModal">
@@ -404,24 +579,259 @@ table.log-table{width:100%;border-collapse:collapse;}
 const KEY = 'study_ielts_v2';
 const DEF = {
   scores:{listening:null,reading:null,writing:null,speaking:null},
-  target:7.5,logs:[],
-  motivation:'Supaya bisa kuliah di CMU dan beneran bisa pakai English di kehidupan nyata.'
+  target:7.5, logs:[], motivation:'Supaya bisa kuliah di CMU dan beneran bisa pakai English di kehidupan nyata.'
 };
-function load(){try{const d=localStorage.getItem(KEY);return d?JSON.parse(d):{...DEF};}catch{return{...DEF};}}
-function save(){localStorage.setItem(KEY,JSON.stringify(state));}
-let state=load();
+
+// ── SUPABASE CONFIG ──
+const SB_URL = 'https://vtxaifnxbbwuvgsaitsz.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0eGFpZm54YmJ3dXZnc2FpdHN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1OTY1NTUsImV4cCI6MjA5NTE3MjU1NX0.PT8ACN6cXPDiJYbzehQ6dtqyrKCGdv2kR6mJzy0544I';
+const USER_KEY = 'ielts_user_main'; // ganti kalau lo mau multi-device dengan key berbeda
+const SB_HEADERS = {
+  'Content-Type': 'application/json',
+  'apikey': SB_KEY,
+  'Authorization': 'Bearer ' + SB_KEY,
+};
+
+// sync status indicator
+function setSyncStatus(status) {
+  const el = document.getElementById('syncStatus');
+  if (!el) return;
+  const map = {
+    syncing: '☁️ Menyimpan...',
+    saved:   '✓ Tersimpan',
+    error:   '⚠️ Gagal sync',
+    loading: '☁️ Memuat data...',
+    offline: '📴 Offline — data lokal',
+  };
+  el.textContent = map[status] || '';
+  el.className = 'sync-status ' + status;
+}
+
+async function loadFromCloud() {
+  setSyncStatus('loading');
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/tracker_data?select=data&user_key=eq.${USER_KEY}`, {
+      headers: SB_HEADERS
+    });
+    if (!res.ok) throw new Error('fetch failed');
+    const rows = await res.json();
+    if (rows && rows.length > 0 && rows[0].data) {
+      const cloud = rows[0].data;
+      // merge: cloud wins, but keep DEF structure
+      return { ...DEF, ...cloud };
+    }
+    return { ...DEF };
+  } catch (e) {
+    console.warn('Cloud load failed, using localStorage:', e);
+    setSyncStatus('offline');
+    const d = localStorage.getItem(KEY);
+    return d ? JSON.parse(d) : { ...DEF };
+  }
+}
+
+async function saveToCloud(st) {
+  // always save to localStorage as backup
+  localStorage.setItem(KEY, JSON.stringify(st));
+  setSyncStatus('syncing');
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/tracker_data?on_conflict=user_key`, {
+      method: 'POST',
+      headers: { ...SB_HEADERS, 'Prefer': 'resolution=merge-duplicates' },
+      body: JSON.stringify({ user_key: USER_KEY, data: st, updated_at: new Date().toISOString() })
+    });
+    if (!res.ok) throw new Error('save failed ' + res.status);
+    setSyncStatus('saved');
+    setTimeout(() => setSyncStatus(''), 2000);
+  } catch (e) {
+    console.warn('Cloud save failed:', e);
+    setSyncStatus('error');
+  }
+}
+
+function save() { saveToCloud(state); }
+
+let state = { ...DEF };
 
 const SCHED=[
-  {day:'Senin',skill:'Reading',icon:'📖',c:'var(--purple)',bg:'var(--purple-light)'},
-  {day:'Selasa',skill:'Writing',icon:'✍️',c:'var(--gold)',bg:'var(--gold-light)'},
-  {day:'Rabu',skill:'Speaking',icon:'🗣️',c:'var(--green)',bg:'var(--green-light)'},
-  {day:'Kamis',skill:'Reading',icon:'📖',c:'var(--purple)',bg:'var(--purple-light)'},
-  {day:'Jumat',skill:'Writing',icon:'✍️',c:'var(--gold)',bg:'var(--gold-light)'},
-  {day:'Sabtu',skill:'Speaking',icon:'🗣️',c:'var(--green)',bg:'var(--green-light)'},
-  {day:'Minggu',skill:'Review / Rest',icon:'📝',c:'var(--text-muted)',bg:'var(--surface3)'},
+  {day:'Senin',  skill:'Reading', icon:'📖',c:'var(--purple)',bg:'var(--purple-light)'},
+  {day:'Selasa', skill:'Writing', icon:'✍️',c:'var(--gold)',  bg:'var(--gold-light)'},
+  {day:'Rabu',   skill:'Speaking',icon:'🗣️',c:'var(--green)', bg:'var(--green-light)'},
+  {day:'Kamis',  skill:'Reading', icon:'📖',c:'var(--purple)',bg:'var(--purple-light)'},
+  {day:'Jumat',  skill:'Writing', icon:'✍️',c:'var(--gold)',  bg:'var(--gold-light)'},
+  {day:'Sabtu',  skill:'Speaking',icon:'🗣️',c:'var(--green)', bg:'var(--green-light)'},
+  {day:'Minggu', skill:'Review / Rest',icon:'📝',c:'var(--text-muted)',bg:'var(--surface3)'},
 ];
 const DMAP={0:'Minggu',1:'Senin',2:'Selasa',3:'Rabu',4:'Kamis',5:'Jumat',6:'Sabtu'};
 
+const LC={
+  'Listening':{c:'var(--blue)',  bg:'var(--blue-light)',  icon:'🎧'},
+  'Reading':  {c:'var(--purple)',bg:'var(--purple-light)',icon:'📖'},
+  'Writing':  {c:'var(--gold)', bg:'var(--gold-light)',  icon:'✍️'},
+  'Speaking': {c:'var(--green)',bg:'var(--green-light)', icon:'🗣️'},
+  'Full Test':{c:'var(--green)',bg:'var(--green-pale)',  icon:'📝'},
+};
+
+// ── HELPERS ──
+function todayStr(){return new Date().toISOString().split('T')[0];}
+function calcOverall(sc){
+  const v=Object.values(sc).filter(x=>x!=null);
+  if(!v.length)return null;
+  return Math.round((v.reduce((a,b)=>a+b,0)/v.length)*2)/2;
+}
+function getTodaySchedule(){
+  const name=DMAP[new Date().getDay()];
+  return SCHED.find(s=>s.day===name)||SCHED[0];
+}
+function didLogToday(){
+  return state.logs.some(l=>l.date===todayStr());
+}
+
+// ── STREAK ──
+function calcStreak(){
+  if(!state.logs.length)return 0;
+  const dates=[...new Set(state.logs.map(l=>l.date))].sort().reverse();
+  let streak=0;
+  const today=new Date(); today.setHours(0,0,0,0);
+  let cur=new Date(today);
+  for(let i=0;i<dates.length;i++){
+    const d=new Date(dates[i]+'T00:00:00');
+    if(d.getTime()===cur.getTime()){streak++;cur.setDate(cur.getDate()-1);}
+    else if(i===0&&d.getTime()<cur.getTime()&&(today-d)/(864e5)<=1){streak++;cur.setDate(cur.getDate()-1);}
+    else break;
+  }
+  return streak;
+}
+
+// ── TODAY CARD ──
+function renderTodayCard(){
+  const ts=getTodaySchedule();
+  const done=didLogToday();
+  const streak=calcStreak();
+
+  document.getElementById('streakNum').textContent=streak;
+
+  // streak dots: last 7 days
+  const dots=document.getElementById('streakDots');
+  const t=new Date(); t.setHours(0,0,0,0);
+  const logDates=new Set(state.logs.map(l=>l.date));
+  let dotsHTML='';
+  for(let i=6;i>=0;i--){
+    const d=new Date(t); d.setDate(t.getDate()-i);
+    const ds=d.toISOString().split('T')[0];
+    const isToday=i===0;
+    const hasDone=logDates.has(ds);
+    dotsHTML+=`<div class="streak-day-dot ${hasDone?'done':''} ${isToday&&!hasDone?'today-dot-s':''}"></div>`;
+  }
+  dots.innerHTML=dotsHTML;
+
+  // headline & hint
+  document.getElementById('todaySkillIcon').textContent=ts.icon;
+  document.getElementById('todaySkillHint').textContent=`Skill fokus hari ini: ${ts.icon} ${ts.skill} + 🎧 Listening`;
+
+  if(done){
+    document.getElementById('todayHeadline').innerHTML=`Lo udah <em>belajar hari ini!</em>`;
+    document.getElementById('todayActions').style.display='none';
+    document.getElementById('todayDone').classList.add('show');
+    const todaySessions=state.logs.filter(l=>l.date===todayStr());
+    document.getElementById('doneSub').textContent=`${todaySessions.length} sesi hari ini · Streak ${streak} hari 🔥`;
+  } else {
+    document.getElementById('todayHeadline').innerHTML=`Cukup <em>5 menit aja.</em>`;
+    document.getElementById('todayActions').style.display='flex';
+    document.getElementById('todayDone').classList.remove('show');
+  }
+}
+
+function undoToday(){
+  // remove all logs from today
+  state.logs=state.logs.filter(l=>l.date!==todayStr());
+  save(); renderTodayCard(); renderLog();
+}
+
+// ── TIMER ──
+let timerInterval=null;
+let timerSeconds=0;
+let timerTotal=0;
+let timerPaused=false;
+let currentSession={skill:'',mode:''};
+
+function startSession(mode){
+  const ts=getTodaySchedule();
+  currentSession={skill:ts.skill,mode};
+  timerTotal = mode==='mini' ? 5*60 : 45*60;
+  timerSeconds = timerTotal;
+  timerPaused=false;
+
+  const badge=document.getElementById('timerBadge');
+  badge.textContent=`${ts.icon} ${ts.skill}`;
+  badge.style.background=ts.bg; badge.style.color=ts.c;
+  document.getElementById('timerModeLabel').textContent=mode==='mini'?'5 MENIT AJA':'SESI PENUH';
+  document.getElementById('timerPauseBtn').textContent='⏸ Pause';
+  updateTimerDisplay();
+  document.getElementById('timerOverlay').classList.add('open');
+  timerInterval=setInterval(tickTimer,1000);
+}
+
+function tickTimer(){
+  if(timerPaused)return;
+  timerSeconds--;
+  updateTimerDisplay();
+  if(timerSeconds<=0){clearInterval(timerInterval);finishSession();}
+}
+
+function updateTimerDisplay(){
+  const m=Math.floor(timerSeconds/60);
+  const s=timerSeconds%60;
+  const disp=document.getElementById('timerDisplay');
+  const ring=document.getElementById('timerRing');
+  const ending=timerSeconds<=60&&timerSeconds>0;
+  disp.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  disp.className='timer-display'+(ending?' ending':'');
+  ring.className='timer-ring-fill'+(ending?' ending':'');
+  const circ=427;
+  const frac=timerTotal>0?timerSeconds/timerTotal:0;
+  ring.style.strokeDashoffset=circ*(1-frac);
+  document.getElementById('timerSub').textContent=
+    timerSeconds<=0?'Selesai! 🎉':
+    timerSeconds<=60?'Dikit lagi! 💪':
+    timerSeconds<=180?'Hampir selesai!':
+    currentSession.mode==='mini'?'5 menit aja, bisa!':'tetap semangat 💪';
+}
+
+function togglePause(){
+  timerPaused=!timerPaused;
+  document.getElementById('timerPauseBtn').textContent=timerPaused?'▶ Lanjut':'⏸ Pause';
+}
+
+function finishSession(){
+  clearInterval(timerInterval);
+  document.getElementById('timerOverlay').classList.remove('open');
+  // open quick log
+  document.getElementById('ql-score').value='';
+  document.getElementById('ql-notes').value='';
+  document.getElementById('qlSub').textContent=`Sesi ${currentSession.mode==='mini'?'5 menit':'penuh'} · ${currentSession.skill} · Berapa hasilnya?`;
+  document.getElementById('quickLogOverlay').classList.add('open');
+}
+
+function cancelSession(){
+  clearInterval(timerInterval);
+  document.getElementById('timerOverlay').classList.remove('open');
+}
+
+function saveQuickLog(skip){
+  document.getElementById('quickLogOverlay').classList.remove('open');
+  const score=skip?'':document.getElementById('ql-score').value.trim();
+  const notes=skip?'':document.getElementById('ql-notes').value.trim();
+  state.logs.push({
+    id:Date.now().toString(),
+    date:todayStr(),
+    skill:currentSession.skill,
+    mode:currentSession.mode,
+    score, notes
+  });
+  save(); renderTodayCard(); renderLog();
+}
+
+// ── SCHEDULE ──
 function renderSchedule(){
   const t=DMAP[new Date().getDay()];
   document.getElementById('schedList').innerHTML=SCHED.map(s=>{
@@ -433,25 +843,9 @@ function renderSchedule(){
       <span class="sched-extra">+ 🎧</span>
     </div>`;
   }).join('');
-  const ts=SCHED.find(s=>s.day===t);
-  document.getElementById('todayName').textContent=t;
-  document.getElementById('todayFocus').textContent=ts?`${ts.icon} ${ts.skill}`:'—';
 }
 
-const LC={
-  'Listening':{c:'var(--blue)',bg:'var(--blue-light)',icon:'🎧'},
-  'Reading':{c:'var(--purple)',bg:'var(--purple-light)',icon:'📖'},
-  'Writing':{c:'var(--gold)',bg:'var(--gold-light)',icon:'✍️'},
-  'Speaking':{c:'var(--green)',bg:'var(--green-light)',icon:'🗣️'},
-  'Full Test':{c:'var(--green)',bg:'var(--green-pale)',icon:'📝'},
-};
-
-function calcOverall(sc){
-  const v=Object.values(sc).filter(x=>x!=null);
-  if(!v.length)return null;
-  return Math.round((v.reduce((a,b)=>a+b,0)/v.length)*2)/2;
-}
-
+// ── SCORES ──
 function renderScores(){
   ['listening','reading','writing','speaking'].forEach(sk=>{
     const val=state.scores[sk];
@@ -469,32 +863,100 @@ function renderScores(){
   document.getElementById('progFill').style.width=ov!=null?`${(ov/9)*100}%`:'0%';
 }
 
+// ── LOG ──
+let showOlder=false;
+
+function toggleNotes(id){
+  const row=document.getElementById('notes-'+id);
+  const chev=document.getElementById('chev-'+id);
+  if(!row)return;
+  const open=row.classList.contains('open');
+  row.classList.toggle('open',!open);
+  chev.classList.toggle('open',!open);
+}
+
 function renderLog(){
   const el=document.getElementById('logContainer');
   if(!state.logs.length){
-    el.innerHTML=`<div class="log-empty"><div class="log-empty-icon">📋</div><div class="log-empty-title">No sessions yet</div><div class="log-empty-sub">Catat sesi pertama lo dan mulai tracking progress!</div></div>`;
+    el.innerHTML=`<div class="log-empty"><div class="log-empty-icon">📋</div><div class="log-empty-title">No sessions yet</div><div class="log-empty-sub">Mulai sesi pertama lo dengan tombol di atas!</div></div>`;
     return;
   }
   const sorted=[...state.logs].sort((a,b)=>new Date(b.date)-new Date(a.date));
-  el.innerHTML=`<table class="log-table"><thead><tr><th>Tanggal</th><th>Skill</th><th>Skor</th><th>Notes</th><th></th></tr></thead><tbody>${
-    sorted.map(log=>{
+  const cutoff=new Date(); cutoff.setDate(cutoff.getDate()-7); cutoff.setHours(0,0,0,0);
+  const recent=sorted.filter(l=>new Date(l.date+'T00:00:00')>=cutoff);
+  const older=sorted.filter(l=>new Date(l.date+'T00:00:00')<cutoff);
+  const display=showOlder?sorted:recent;
+
+  function rowsHTML(logs){
+    return logs.map(log=>{
       const c=LC[log.skill]||LC['Full Test'];
       const ds=new Date(log.date+'T00:00:00').toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
-      return`<tr>
+      const hasNotes=log.notes&&log.notes.trim();
+      const preview=hasNotes?log.notes.slice(0,60)+(log.notes.length>60?'…':''):'—';
+      const modeBadge=log.mode==='mini'?'<span style="font-size:10px;background:var(--gold-light);color:var(--gold);border-radius:10px;padding:1px 7px;font-weight:700;margin-left:4px;">⚡5min</span>':'';
+      return`<tr class="log-row" onclick="toggleNotes('${log.id}')">
         <td class="log-date">${ds}</td>
-        <td><span class="log-badge" style="background:${c.bg};color:${c.c}">${c.icon} ${log.skill}</span></td>
+        <td><span class="log-badge" style="background:${c.bg};color:${c.c}">${c.icon} ${log.skill}</span>${modeBadge}</td>
         <td class="log-score" style="color:${c.c}">${log.score||'—'}</td>
-        <td class="log-notes">${log.notes||'—'}</td>
-        <td><button class="del-btn" onclick="deleteLog('${log.id}')">✕</button></td>
+        <td class="log-notes-preview">${preview}</td>
+        <td style="display:flex;align-items:center;gap:6px">
+          <span class="log-chevron" id="chev-${log.id}">▾</span>
+          <button class="del-btn" onclick="event.stopPropagation();deleteLog('${log.id}')" title="Delete">✕</button>
+        </td>
+      </tr>
+      <tr class="log-notes-row" id="notes-${log.id}">
+        <td colspan="5"><div class="${hasNotes?'notes-bubble':'notes-empty'}">${hasNotes?log.notes:'Tidak ada catatan untuk sesi ini.'}</div></td>
       </tr>`;
-    }).join('')
-  }</tbody></table>`;
+    }).join('');
+  }
+
+  let olderBtn='';
+  if(older.length>0){
+    olderBtn=`<div class="older-toggle" onclick="toggleOlder()">
+      <span>${showOlder?'▴':'▾'}</span>
+      ${showOlder?'Sembunyikan sesi lama':'Tampilkan sesi sebelumnya'}
+      <span class="older-count">${older.length} sesi</span>
+    </div>`;
+  }
+  el.innerHTML=`<table class="log-table"><thead><tr><th>Tanggal</th><th>Skill</th><th>Skor</th><th>Notes</th><th></th></tr></thead><tbody>${rowsHTML(display)}</tbody></table>${olderBtn}`;
 }
 
-function deleteLog(id){state.logs=state.logs.filter(l=>l.id!==id);save();renderLog();}
+function toggleOlder(){showOlder=!showOlder;renderLog();}
+function deleteLog(id){state.logs=state.logs.filter(l=>l.id!==id);save();renderLog();renderTodayCard();}
 
+// ── DOWNLOAD ──
+function downloadData(){
+  const sorted=[...state.logs].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const rows=sorted.map(log=>{
+    const ds=new Date(log.date+'T00:00:00').toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+    return`<tr><td>${ds}</td><td>${log.skill}${log.mode==='mini'?' ⚡':''}</td><td>${log.score||'—'}</td><td style="white-space:pre-wrap">${log.notes||'—'}</td></tr>`;
+  }).join('');
+  const ov=calcOverall(state.scores);
+  const streak=calcStreak();
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Study IELTS — Export</title><style>body{font-family:Georgia,serif;max-width:860px;margin:40px auto;padding:0 24px;color:#1a1917;background:#f7f6f2;}h1{font-size:28px;margin-bottom:4px;}h2{font-size:18px;margin:28px 0 12px;border-bottom:2px solid #e3e1d6;padding-bottom:6px;}.meta{color:#7a7870;font-size:13px;margin-bottom:32px;}.scores{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:8px;}.sc{background:#fff;border:1px solid #e3e1d6;border-radius:10px;padding:14px 22px;text-align:center;}.sc .lbl{font-size:11px;color:#b0aea6;letter-spacing:1px;text-transform:uppercase;}.sc .val{font-size:28px;font-weight:bold;color:#2a5c40;margin-top:2px;}table{width:100%;border-collapse:collapse;}th{text-align:left;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#b0aea6;padding:0 12px 10px;}td{padding:11px 12px;font-size:13.5px;border-top:1px solid #e3e1d6;vertical-align:top;}tr:hover td{background:#f0efe8;}.foot{margin-top:40px;font-size:12px;color:#b0aea6;}</style></head><body>
+  <h1>Study IELTS — Practice Log</h1>
+  <div class="meta">Export ${new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})} · Target: ${(state.target||7.5).toFixed(1)} · Streak: ${streak} hari</div>
+  <h2>Scores</h2><div class="scores">
+    <div class="sc"><div class="lbl">Overall</div><div class="val">${ov!=null?ov.toFixed(1):'—'}</div></div>
+    <div class="sc"><div class="lbl">Listening</div><div class="val">${state.scores.listening!=null?state.scores.listening.toFixed(1):'—'}</div></div>
+    <div class="sc"><div class="lbl">Reading</div><div class="val">${state.scores.reading!=null?state.scores.reading.toFixed(1):'—'}</div></div>
+    <div class="sc"><div class="lbl">Writing</div><div class="val">${state.scores.writing!=null?state.scores.writing.toFixed(1):'—'}</div></div>
+    <div class="sc"><div class="lbl">Speaking</div><div class="val">${state.scores.speaking!=null?state.scores.speaking.toFixed(1):'—'}</div></div>
+  </div>
+  <h2>Practice Sessions (${sorted.length} total)</h2>
+  <table><thead><tr><th>Tanggal</th><th>Skill</th><th>Skor</th><th>Notes</th></tr></thead><tbody>${rows}</tbody></table>
+  <div class="foot">Study IELTS · CMU Journey</div></body></html>`;
+  const blob=new Blob([html],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`study-ielts-${new Date().toISOString().split('T')[0]}.html`;
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+// ── MOTIVATION ──
 function renderMotivation(){document.getElementById('motivationText').textContent=state.motivation;}
 
+// ── MODALS ──
 function openModal(id){
   if(id==='scoreModal'){
     document.getElementById('i-l').value=state.scores.listening??'';
@@ -504,7 +966,7 @@ function openModal(id){
     document.getElementById('i-t').value=state.target??7.5;
   }
   if(id==='logModal'){
-    document.getElementById('l-date').value=new Date().toISOString().split('T')[0];
+    document.getElementById('l-date').value=todayStr();
     document.getElementById('l-score').value='';
     document.getElementById('l-notes').value='';
   }
@@ -512,7 +974,6 @@ function openModal(id){
 }
 function openMotivationModal(){document.getElementById('m-text').value=state.motivation;document.getElementById('motivationModal').classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
-
 function saveScores(){
   const p=id=>{const v=parseFloat(document.getElementById(id).value);return isNaN(v)?null:Math.min(9,Math.max(0,v));};
   state.scores={listening:p('i-l'),reading:p('i-r'),writing:p('i-w'),speaking:p('i-s')};
@@ -523,13 +984,22 @@ function saveLog(){
   const date=document.getElementById('l-date').value;
   if(!date){alert('Pilih tanggal dulu!');return;}
   state.logs.push({id:Date.now().toString(),date,skill:document.getElementById('l-skill').value,score:document.getElementById('l-score').value.trim(),notes:document.getElementById('l-notes').value.trim()});
-  save();renderLog();closeModal('logModal');
+  save();renderTodayCard();renderLog();closeModal('logModal');
 }
 function saveMotivation(){const v=document.getElementById('m-text').value.trim();if(v)state.motivation=v;save();renderMotivation();closeModal('motivationModal');}
 
 document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
 
-renderSchedule();renderScores();renderLog();renderMotivation();
+// ── INIT ──
+(async () => {
+  state = await loadFromCloud();
+  renderTodayCard();
+  renderSchedule();
+  renderScores();
+  renderLog();
+  renderMotivation();
+})();
 </script>
+
 </body>
 </html>
